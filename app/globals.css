@@ -5,6 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-noto-sans-sc), ui-sans-serif, system-ui, -apple-system,
+    'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  --color-brand: #c9302c;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -153,107 +156,11 @@
   }
 }
 
-/* 迈极炫 · 积分商城 品牌设计系统（快消品 · 高端精美） */
-@theme {
-  --color-brand: #c4302b;
-  --color-brand-dark: #9e241f;
-  --color-brand-light: #e86a5f;
-  --color-gold: #c99a46;
-  --color-gold-light: #e9c77e;
-  --color-gold-pale: #f5e7c6;
-  --color-ink: #2b2320;
-  --color-ink-soft: #6b6058;
-  --color-paper: #f5f1ea;
-
-  --font-display: 'PingFang SC', 'Hiragino Sans GB', -apple-system,
-    BlinkMacSystemFont, 'Microsoft YaHei', sans-serif;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
-  }
-}
-
-@layer utilities {
-  .bg-brand-gradient {
-    background-image: linear-gradient(135deg, #d33a34 0%, #b62923 55%, #9e241f 100%);
-  }
-  .bg-gold-gradient {
-    background-image: linear-gradient(135deg, #f0d79a 0%, #d8ab55 50%, #c08f3a 100%);
-  }
-  .text-gold-gradient {
-    background-image: linear-gradient(135deg, #e9c77e, #c99a46);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  /* 快消品质感：柔和纹理与光晕 */
-  .brand-texture {
-    background-image:
-      radial-gradient(120% 90% at 85% -10%, rgba(255, 255, 255, 0.28), transparent 60%),
-      radial-gradient(90% 70% at -10% 110%, rgba(0, 0, 0, 0.16), transparent 55%);
-  }
-  .paper-texture {
-    background-color: #f5f1ea;
-    background-image:
-      radial-gradient(60% 40% at 100% 0%, rgba(201, 154, 70, 0.1), transparent 60%),
-      radial-gradient(60% 45% at 0% 5%, rgba(196, 48, 43, 0.07), transparent 55%);
-  }
-  .shadow-card {
-    box-shadow: 0 6px 20px -8px rgba(43, 35, 32, 0.18), 0 2px 6px -3px rgba(43, 35, 32, 0.1);
-  }
-  .shadow-card-hover {
-    box-shadow: 0 14px 34px -12px rgba(158, 36, 31, 0.32), 0 4px 10px -4px rgba(43, 35, 32, 0.14);
-  }
-  .shadow-fab {
-    box-shadow: 0 10px 24px -6px rgba(158, 36, 31, 0.5), 0 3px 8px -2px rgba(43, 35, 32, 0.2);
-  }
-  .no-scrollbar {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-@keyframes mall-shimmer {
-  0% {
-    transform: translateX(-120%) skewX(-18deg);
-  }
-  100% {
-    transform: translateX(220%) skewX(-18deg);
-  }
-}
-@keyframes mall-float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-@keyframes mall-toast-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-@keyframes mall-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

@@ -1,21 +1,22 @@
+'use client'
+
 import { Search } from 'lucide-react'
 
 export function SearchBar() {
   return (
-    <a
-      href="search.html"
+    <div
+      onClick={() => {
+        location.href = 'search.html'
+      }}
+      className="mx-3 mb-3 flex cursor-pointer items-center gap-2 rounded-[10px] border-[0.5px] border-black/[0.08] bg-white px-3 py-2.5 shadow-sm transition-all duration-200 hover:shadow-md active:scale-[0.99]"
       data-page-node-id="qyeSB9dYLZiqgNhpOUIVbm"
-      className="group mx-3 mb-3 flex items-center gap-2.5 rounded-full border border-black/5 bg-white/90 px-4 py-2.5 shadow-card transition-all duration-200 active:scale-[0.99] hover:shadow-card-hover"
     >
-      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-gradient">
-        <Search className="h-3.5 w-3.5 text-white" strokeWidth={2.6} />
+      <span className="flex-shrink-0" data-page-node-id="yMAjL01ABWhVLSWGkNIYFd">
+        <Search className="h-4 w-4 text-[#999]" strokeWidth={2} />
       </span>
-      <span data-page-node-id="9axuLVrcXBfzFFWAfYRW2n" className="text-sm text-ink-soft">
+      <span className="text-sm text-[#999]" data-page-node-id="9axuLVrcXBfzFFWAfYRW2n">
         搜索积分商品
       </span>
-      <span className="ml-auto rounded-full bg-brand-gradient px-3 py-1 text-[11px] font-medium text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-        搜索
-      </span>
-    </a>
+    </div>
   )
 }
