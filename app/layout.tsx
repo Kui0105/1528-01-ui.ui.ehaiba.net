@@ -1,18 +1,10 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Noto_Sans_SC } from 'next/font/google'
 import './globals.css'
-
-const notoSansSC = Noto_Sans_SC({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-noto-sans-sc',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   title: '迈极炫 · 积分商城',
-  description: '迈极炫积分商城 —— 积分好礼，兑换不停',
+  description: '迈极炫会员积分商城 — 积分兑好礼，运动能量随心换',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -36,10 +28,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: 'light',
   themeColor: '#c9302c',
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 }
 
 export default function RootLayout({
@@ -48,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="zh-CN" className={`${notoSansSC.variable} light`}>
-      <body className="antialiased font-sans">
+    <html lang="zh-CN" className="light">
+      <body className="antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
