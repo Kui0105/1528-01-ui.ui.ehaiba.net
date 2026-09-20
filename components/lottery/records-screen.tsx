@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { ChevronLeft, Gift, Coins } from "lucide-react"
 import { PhoneFrame } from "@/components/points-mall/phone-frame"
-import { StatusBar } from "@/components/shared/wechat-chrome"
+import { StatusBar, Capsule } from "@/components/shared/wechat-chrome"
 import { lotteryRecords } from "@/lib/points-mall-data"
 
 export function RecordsScreen() {
@@ -25,6 +25,9 @@ export function RecordsScreen() {
               <ChevronLeft className="h-6 w-6" />
             </button>
             <span className="text-[17px] font-semibold">中奖记录</span>
+            <div className="absolute right-3">
+              <Capsule />
+            </div>
           </div>
         </div>
 

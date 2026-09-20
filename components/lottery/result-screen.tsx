@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ChevronLeft, PartyPopper, Coins, Frown, Package } from "lucide-react"
 import { PhoneFrame } from "@/components/points-mall/phone-frame"
-import { StatusBar } from "@/components/shared/wechat-chrome"
+import { StatusBar, Capsule } from "@/components/shared/wechat-chrome"
 
 type ResultType = "prize" | "points" | "none"
 
@@ -59,6 +59,9 @@ export function ResultScreen() {
               <ChevronLeft className="h-6 w-6" />
             </button>
             <span className="text-[17px] font-semibold">抽奖结果</span>
+            <div className="absolute right-3">
+              <Capsule dark />
+            </div>
           </div>
 
           {/* 品牌信息 */}

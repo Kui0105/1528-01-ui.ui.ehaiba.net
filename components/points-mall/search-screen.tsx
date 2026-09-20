@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Search, ChevronLeft, X } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { ProductCard } from "./product-card"
-import { StatusBar } from "@/components/shared/wechat-chrome"
+import { StatusBar, Capsule } from "@/components/shared/wechat-chrome"
 import { hotKeywords, goods, sortTabs } from "@/lib/points-mall-data"
 import { cn } from "@/lib/utils"
 
@@ -71,6 +71,9 @@ export function SearchScreen() {
             >
               搜索
             </button>
+            <div className="shrink-0">
+              <Capsule dark />
+            </div>
           </div>
         </div>
 

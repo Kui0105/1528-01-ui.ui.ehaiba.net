@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { ChevronLeft } from "lucide-react"
 import { PhoneFrame } from "@/components/points-mall/phone-frame"
-import { StatusBar } from "@/components/shared/wechat-chrome"
+import { StatusBar, Capsule } from "@/components/shared/wechat-chrome"
 import { ruleSections } from "@/lib/points-mall-data"
 
 export function RuleScreen() {
@@ -25,6 +25,9 @@ export function RuleScreen() {
               <ChevronLeft className="h-6 w-6" />
             </button>
             <span className="text-[17px] font-semibold">活动规则</span>
+            <div className="absolute right-3">
+              <Capsule />
+            </div>
           </div>
         </div>
 
