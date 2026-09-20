@@ -23,7 +23,7 @@ export function GoodsDetailScreen({ id }: { id: number }) {
 
   function exchange() {
     setSheet(false)
-    showToast(`已兑换 ${item.name} ×${qty}`)
+    router.push(`/order-submit?id=${item.id}&qty=${qty}`)
   }
 
   return (

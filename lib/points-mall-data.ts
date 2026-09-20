@@ -170,6 +170,174 @@ export const profileMenu = [
   { key: "about", label: "关于我们", icon: "/profile/about.png" },
 ]
 
+// 收货地址（原型 address.html / order-submit.html）
+export type Address = {
+  id: string
+  name: string
+  phone: string
+  region: string
+  detail: string
+  isDefault: boolean
+}
+
+export const addresses: Address[] = [
+  {
+    id: "a1",
+    name: "张三",
+    phone: "138****8888",
+    region: "广东省 广州市 天河区",
+    detail: "科韵路 123 号某某大厦 18 楼",
+    isDefault: true,
+  },
+  {
+    id: "a2",
+    name: "李四",
+    phone: "139****9999",
+    region: "湖南省 长沙市 岳麓区",
+    detail: "麓谷大道 88 号创业园 6 栋",
+    isDefault: false,
+  },
+]
+
+// 我的订单（原型 orders.html / order-detail.html）
+export type OrderStatus = "unpaid" | "unshipped" | "shipping" | "done"
+
+export type Order = {
+  id: string
+  status: OrderStatus
+  goodsId: number
+  name: string
+  points: number
+  qty: number
+  freight: string
+  time: string
+}
+
+export const orderStatusText: Record<OrderStatus, string> = {
+  unpaid: "待付款",
+  unshipped: "待发货",
+  shipping: "待收货",
+  done: "已完成",
+}
+
+export const orderTabs = [
+  { key: "all", label: "全部" },
+  { key: "unpaid", label: "待付款" },
+  { key: "unshipped", label: "待发货" },
+  { key: "shipping", label: "待收货" },
+  { key: "done", label: "已完成" },
+] as const
+
+export const orders: Order[] = [
+  { id: "XJM20260827001", status: "unpaid", goodsId: 0, name: "迈极炫定制打火机", points: 500, qty: 1, freight: "¥6.00", time: "2026-08-27 10:23:45" },
+  { id: "XJM20260827002", status: "unshipped", goodsId: 1, name: "便携收纳盒", points: 300, qty: 2, freight: "¥6.00", time: "2026-08-27 09:12:08" },
+  { id: "XJM20260827003", status: "shipping", goodsId: 2, name: "品牌毛巾套装", points: 800, qty: 1, freight: "¥6.00", time: "2026-08-26 18:40:22" },
+  { id: "XJM20260827004", status: "done", goodsId: 4, name: "迷你蓝牙音箱", points: 1500, qty: 1, freight: "¥6.00", time: "2026-08-25 14:12:33" },
+  { id: "XJM20260827005", status: "done", goodsId: 3, name: "迈极炫帆布袋", points: 450, qty: 1, freight: "¥6.00", time: "2026-08-24 11:05:09" },
+]
+
+export function getOrderById(id: string): Order | undefined {
+  return orders.find((o) => o.id === id)
+}
+
+// 积分明细（原型 points-detail.html：全部 / 积分获得 / 积分扣减）
+export const pointsBalance = 1280
+
+export type PointsRecord = {
+  id: string
+  title: string
+  time: string
+  amount: number // 正为获得，负为扣减
+}
+
+export const pointsRecords: PointsRecord[] = [
+  { id: "p1", title: "扫码抽奖获得积分", time: "2026-08-27 10:23:45", amount: 50 },
+  { id: "p2", title: "兑换 迈极炫定制打火机", time: "2026-08-27 10:25:10", amount: -500 },
+  { id: "p3", title: "每日签到奖励", time: "2026-08-26 18:40:22", amount: 300 },
+  { id: "p4", title: "分享活动奖励", time: "2026-08-26 15:12:08", amount: 20 },
+  { id: "p5", title: "兑换 品牌毛巾套装", time: "2026-08-25 14:12:33", amount: -600 },
+  { id: "p6", title: "新人注册奖励", time: "2026-08-25 11:05:09", amount: 2500 },
+  { id: "p7", title: "扫码抽奖获得积分", time: "2026-08-24 09:33:17", amount: 50 },
+]
+
+// 业务推广（原型 promote.html）
+export const promoteInfo = {
+  name: "业务员：张三",
+  phone: "138****8888",
+  dealer: "经销商：长沙总经销",
+  points: "8,600",
+  stats: [
+    { label: "全部", value: "12860" },
+    { label: "铺货量", value: "9268" },
+    { label: "兑奖量", value: "352" },
+  ],
+  entries: ["产品激活", "产品回收", "兑奖核销", "门店管理", "产品明细"],
+}
+
+// 经销控制台（原型 dealer.html）
+export const dealerInfo = {
+  name: "长沙兴盛商贸有限公司",
+  status: "启用",
+  province: "湖南省 长沙市",
+  region: "华中大区 · 湖南省",
+  points: "12,860",
+  stats: [
+    { label: "进货量", value: "3,600" },
+    { label: "激活量", value: "3,240" },
+    { label: "动销量", value: "2,960" },
+    { label: "中奖量", value: "880" },
+  ],
+  entries: ["进货商城", "进货订单", "产品库存", "门店管理", "业务管理", "销售明细", "兑奖明细", "物料商城", "积分明细", "物料订单"],
+}
+
+// 销售数据（原型 sales.html）
+export type SalesRow = {
+  store: string
+  order: number
+  active: number
+  amount: number
+}
+
+export const salesData: SalesRow[] = [
+  { store: "长沙旗舰店", order: 28, active: 156, amount: 482 },
+  { store: "岳麓分店", order: 22, active: 134, amount: 396 },
+  { store: "开福分店", order: 35, active: 201, amount: 623 },
+  { store: "天心分店", order: 18, active: 98, amount: 287 },
+  { store: "雨花分店", order: 25, active: 167, amount: 412 },
+]
+
+// 关于我们（原型 about.html）
+export const aboutSections = [
+  {
+    title: "关于迈极炫",
+    body: "迈极炫是专注于高品质槟榔产品研发、生产与销售的品牌。我们始终坚持以消费者为核心，致力于为用户提供安全、放心、美味的产品体验。",
+  },
+  {
+    title: "品牌理念",
+    body: "传承经典工艺，融合现代技术，打造具有迈极炫特色的槟榔产品。我们相信，每一颗槟榔都承载着对品质的执着追求。",
+  },
+  {
+    title: "产品承诺",
+    body: "精选优质原料，严格把控生产工艺。建立完善的质量追溯体系，保障食品安全。持续创新产品口味，满足多样化消费需求。",
+  },
+  {
+    title: "一物一码服务",
+    body: "迈极炫推出「一物一码」扫码抽奖活动，消费者购买产品后扫描包装内二维码，即可参与积分兑换、实物奖品等丰富活动。我们希望通过数字化互动，为用户带来更多惊喜与价值。",
+  },
+  {
+    title: "联系我们",
+    body: "如您在使用过程中有任何问题，可通过小程序「联系客服」功能与我们取得联系，我们将竭诚为您服务。",
+  },
+]
+
+// 个人设置（原型 settings.html）
+export const settingsInfo = {
+  nickname: "微信用户_abc123",
+  phone: "138****8888",
+}
+
+export const freightFee = "¥6.00"
+
 // 活动规则（原型 rule.html）
 export const ruleSections = [
   {

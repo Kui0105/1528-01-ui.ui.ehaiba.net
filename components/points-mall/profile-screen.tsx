@@ -17,6 +17,7 @@ import {
   MapPin,
   Headphones,
   Info,
+  Settings,
   type LucideIcon,
 } from "lucide-react"
 import { PhoneFrame } from "@/components/points-mall/phone-frame"
@@ -33,16 +34,16 @@ const orderMeta: Record<string, { icon: LucideIcon; color: string }> = {
   done: { icon: CircleCheck, color: "#3fae6f" },
 }
 
-// 功能菜单图标 + 辅助色
-const menuMeta: Record<string, { icon: LucideIcon; color: string }> = {
-  promo: { icon: Megaphone, color: "#c9302c" },
-  console: { icon: LayoutDashboard, color: "#4f7fd6" },
-  sales: { icon: BarChart3, color: "#2fa39a" },
-  points: { icon: Coins, color: "#d4a843" },
-  records: { icon: Gift, color: "#d9557f" },
-  address: { icon: MapPin, color: "#e8833a" },
+// 功能菜单图标 + 辅助色 + 跳转路由
+const menuMeta: Record<string, { icon: LucideIcon; color: string; href?: string }> = {
+  promo: { icon: Megaphone, color: "#c9302c", href: "/promote" },
+  console: { icon: LayoutDashboard, color: "#4f7fd6", href: "/dealer" },
+  sales: { icon: BarChart3, color: "#2fa39a", href: "/sales" },
+  points: { icon: Coins, color: "#d4a843", href: "/points-detail" },
+  records: { icon: Gift, color: "#d9557f", href: "/lottery/records" },
+  address: { icon: MapPin, color: "#e8833a", href: "/address" },
   service: { icon: Headphones, color: "#3fae6f" },
-  about: { icon: Info, color: "#7b8794" },
+  about: { icon: Info, color: "#7b8794", href: "/about" },
 }
 
 export function ProfileScreen() {
@@ -66,13 +67,6 @@ export function ProfileScreen() {
         <div className="brand-gradient shrink-0 text-white">
           <StatusBar dark />
           <div className="relative flex h-11 items-center justify-center">
-            <button
-              type="button"
-              onClick={() => showToast("设置功能敬请期待")}
-              className="absolute left-4 text-[13px] text-white/90 active:opacity-70"
-            >
-              设置
-            </button>
             <span className="text-[17px] font-semibold">我的</span>
             <div className="absolute right-3">
               <Capsule dark />
@@ -96,10 +90,11 @@ export function ProfileScreen() {
             </div>
             <button
               type="button"
-              onClick={() => showToast("会员中心敬请期待")}
-              className="rounded-full bg-white/15 px-3 py-1 text-[12px] font-medium text-white backdrop-blur-sm active:scale-95"
+              onClick={() => router.push("/settings")}
+              className="flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 text-[12px] font-medium text-white backdrop-blur-sm active:scale-95"
             >
-              会员中心
+              <Settings className="h-3.5 w-3.5" />
+              设置
             </button>
           </div>
         </div>
@@ -112,7 +107,7 @@ export function ProfileScreen() {
                 <span className="text-[15px] font-bold text-ink">我的订单</span>
                 <button
                   type="button"
-                  onClick={() => showToast("订单列表敬请期待")}
+                  onClick={() => router.push("/orders")}
                   className="flex items-center text-[12px] text-muted-foreground active:opacity-70"
                 >
                   全部
@@ -127,7 +122,7 @@ export function ProfileScreen() {
                     <button
                       key={o.key}
                       type="button"
-                      onClick={() => showToast(`${o.label}功能敬请期待`)}
+                      onClick={() => router.push(`/orders?tab=${o.key}`)}
                       className="flex flex-col items-center gap-2 active:scale-95"
                     >
                       <span
@@ -152,7 +147,7 @@ export function ProfileScreen() {
                   <button
                     key={m.key}
                     type="button"
-                    onClick={() => open(m.label, m.href)}
+                    onClick={() => open(m.label, meta.href)}
                     className={`flex w-full items-center gap-3 px-4 py-3 text-left active:bg-black/[0.03] ${
                       i !== 0 ? "border-t border-black/[0.05]" : ""
                     }`}
