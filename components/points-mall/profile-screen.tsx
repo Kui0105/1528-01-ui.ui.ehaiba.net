@@ -2,11 +2,44 @@
 
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { ChevronRight } from "lucide-react"
+import {
+  ChevronRight,
+  Wallet,
+  PackageCheck,
+  Truck,
+  CircleCheck,
+  Megaphone,
+  LayoutDashboard,
+  BarChart3,
+  Coins,
+  Gift,
+  MapPin,
+  Headphones,
+  Info,
+  type LucideIcon,
+} from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { BottomNav } from "./bottom-nav"
 import { StatusBar } from "@/components/shared/wechat-chrome"
 import { myPoints, orderEntries, profileMenu } from "@/lib/points-mall-data"
+
+const orderIcons: Record<string, LucideIcon> = {
+  unpaid: Wallet,
+  unshipped: PackageCheck,
+  shipping: Truck,
+  done: CircleCheck,
+}
+
+const menuIcons: Record<string, LucideIcon> = {
+  promo: Megaphone,
+  console: LayoutDashboard,
+  sales: BarChart3,
+  points: Coins,
+  records: Gift,
+  address: MapPin,
+  service: Headphones,
+  about: Info,
+}
 
 export function ProfileScreen() {
   const router = useRouter()
@@ -44,12 +77,15 @@ export function ProfileScreen() {
               </button>
             </div>
             <div className="mt-4 grid grid-cols-4">
-              {orderEntries.map((o) => (
-                <button key={o.key} type="button" className="flex flex-col items-center gap-1.5">
-                  <Image src={o.icon || "/placeholder.svg"} alt={o.label} width={40} height={40} className="h-10 w-10 object-contain" />
-                  <span className="text-[12px] text-ink">{o.label}</span>
-                </button>
-              ))}
+              {orderEntries.map((o) => {
+                const Icon = orderIcons[o.key]
+                return (
+                  <button key={o.key} type="button" className="flex flex-col items-center gap-1.5">
+                    <Icon className="h-7 w-7 text-brand" strokeWidth={1.75} />
+                    <span className="text-[12px] text-ink">{o.label}</span>
+                  </button>
+                )
+              })}
             </div>
           </section>
 
@@ -70,20 +106,23 @@ export function ProfileScreen() {
 
           {/* 功能菜单 */}
           <section className="mt-3 overflow-hidden rounded-2xl bg-white card-soft">
-            {profileMenu.map((m, i) => (
-              <button
-                key={m.key}
-                type="button"
-                onClick={() => m.href && router.push(m.href)}
-                className={`flex w-full items-center gap-3 px-4 py-3.5 ${
-                  i > 0 ? "border-t border-black/[0.05]" : ""
-                }`}
-              >
-                <Image src={m.icon || "/placeholder.svg"} alt={m.label} width={24} height={24} className="h-6 w-6 object-contain" />
-                <span className="flex-1 text-left text-sm text-ink">{m.label}</span>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
-            ))}
+            {profileMenu.map((m, i) => {
+              const Icon = menuIcons[m.key]
+              return (
+                <button
+                  key={m.key}
+                  type="button"
+                  onClick={() => m.href && router.push(m.href)}
+                  className={`flex w-full items-center gap-3 px-4 py-3.5 ${
+                    i > 0 ? "border-t border-black/[0.05]" : ""
+                  }`}
+                >
+                  <Icon className="h-5 w-5 text-brand" strokeWidth={1.75} />
+                  <span className="flex-1 text-left text-sm text-ink">{m.label}</span>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                </button>
+              )
+            })}
           </section>
         </main>
 
