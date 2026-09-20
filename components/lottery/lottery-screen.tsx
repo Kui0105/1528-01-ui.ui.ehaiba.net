@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { PhoneFrame } from "@/components/points-mall/phone-frame"
+import { StatusBar, Capsule } from "@/components/shared/wechat-chrome"
 import { AuthModal } from "./auth-modal"
 import { Toast } from "./toast"
 
@@ -48,12 +49,8 @@ export function LotteryScreen() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
 
         {/* 状态栏 */}
-        <div className="relative z-10 flex items-center justify-between px-5 pt-3 text-xs font-medium">
-          <span>10:25</span>
-          <span className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full border border-white/70" aria-hidden />
-            <span className="h-2.5 w-4 rounded-sm border border-white/70" aria-hidden />
-          </span>
+        <div className="relative z-10">
+          <StatusBar dark />
         </div>
 
         {/* 导航栏 */}
@@ -80,13 +77,7 @@ export function LotteryScreen() {
             </svg>
           </button>
           <span className="text-[17px] font-semibold drop-shadow">迈极炫</span>
-          <div className="flex h-9 items-center rounded-full border border-white/40 bg-white/10 backdrop-blur">
-            <span className="px-2.5 text-xs tracking-widest">•••</span>
-            <span className="h-4 w-px bg-white/40" aria-hidden />
-            <span className="flex items-center justify-center px-2.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-white" aria-hidden />
-            </span>
-          </div>
+          <Capsule dark />
         </div>
 
         {/* 海报主体 */}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { ChevronRight } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { BottomNav } from "./bottom-nav"
+import { StatusBar } from "@/components/shared/wechat-chrome"
 import { myPoints, orderEntries, profileMenu } from "@/lib/points-mall-data"
 
 export function ProfileScreen() {
@@ -15,13 +16,7 @@ export function ProfileScreen() {
       <div className="flex h-full flex-col bg-muted">
         {/* 品牌红头部 + 用户信息 */}
         <div className="brand-gradient shrink-0 text-white">
-          <div className="flex items-center justify-between px-4 pt-2.5 text-[13px] font-medium tabular-nums">
-            <span>10:25</span>
-            <span className="flex items-center gap-1.5">
-              <span className="inline-block h-2.5 w-3.5 rounded-[2px] bg-white/80" aria-hidden />
-              <span className="inline-block h-2.5 w-5 rounded-[3px] border border-white/70" aria-hidden />
-            </span>
-          </div>
+          <StatusBar dark />
           <div className="relative flex h-11 items-center justify-center">
             <span className="text-[17px] font-semibold">我的</span>
             <button type="button" className="absolute right-4 text-[13px] text-white/90">
@@ -51,7 +46,7 @@ export function ProfileScreen() {
             <div className="mt-4 grid grid-cols-4">
               {orderEntries.map((o) => (
                 <button key={o.key} type="button" className="flex flex-col items-center gap-1.5">
-                  <span className="text-2xl">{o.icon}</span>
+                  <Image src={o.icon || "/placeholder.svg"} alt={o.label} width={40} height={40} className="h-10 w-10 object-contain" />
                   <span className="text-[12px] text-ink">{o.label}</span>
                 </button>
               ))}
@@ -84,7 +79,7 @@ export function ProfileScreen() {
                   i > 0 ? "border-t border-black/[0.05]" : ""
                 }`}
               >
-                <span className="text-lg">{m.icon}</span>
+                <Image src={m.icon || "/placeholder.svg"} alt={m.label} width={24} height={24} className="h-6 w-6 object-contain" />
                 <span className="flex-1 text-left text-sm text-ink">{m.label}</span>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </button>

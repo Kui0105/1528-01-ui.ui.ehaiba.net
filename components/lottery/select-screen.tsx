@@ -3,6 +3,7 @@
 import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { PhoneFrame } from "@/components/points-mall/phone-frame"
+import { StatusBar, Capsule } from "@/components/shared/wechat-chrome"
 import { Toast } from "./toast"
 
 const prizes = [
@@ -142,12 +143,8 @@ export function SelectScreen() {
         />
 
         {/* 状态栏 */}
-        <div className="relative z-10 flex items-center justify-between px-5 pt-3 text-xs font-medium">
-          <span>10:25</span>
-          <span className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full border border-white/70" aria-hidden />
-            <span className="h-2.5 w-4 rounded-sm border border-white/70" aria-hidden />
-          </span>
+        <div className="relative z-10">
+          <StatusBar dark />
         </div>
 
         {/* 导航栏 */}
@@ -163,13 +160,7 @@ export function SelectScreen() {
             </svg>
           </button>
           <span className="text-[17px] font-semibold">抽奖</span>
-          <div className="flex h-9 items-center rounded-full border border-white/40 bg-white/10 backdrop-blur">
-            <span className="px-2.5 text-xs tracking-widest">•••</span>
-            <span className="h-4 w-px bg-white/40" aria-hidden />
-            <span className="flex items-center justify-center px-2.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-white" aria-hidden />
-            </span>
-          </div>
+          <Capsule dark />
         </div>
 
         {/* 右侧金色竖排标签 */}
@@ -197,7 +188,7 @@ export function SelectScreen() {
             className="bg-[linear-gradient(180deg,#fff6dd_0%,#ffe4a3_42%,#f2b957_78%,#d98a2b_100%)] bg-clip-text text-[42px] font-black leading-none tracking-wide text-transparent drop-shadow-[0_2px_6px_rgba(90,20,10,0.5)]"
             style={{ WebkitTextStroke: "0.5px rgba(120,50,10,0.35)" }}
           >
-            迈极炫
+            迈极��
           </div>
           <div className="mx-auto mt-3 flex items-center justify-center gap-2">
             <span className="h-px w-8 bg-gradient-to-r from-transparent to-[#f4c66a]/70" aria-hidden />

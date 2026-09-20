@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { PhoneFrame } from "./phone-frame"
 import { BottomNav } from "./bottom-nav"
+import { StatusBar } from "@/components/shared/wechat-chrome"
 import { messages } from "@/lib/points-mall-data"
 import { cn } from "@/lib/utils"
 
@@ -20,13 +21,7 @@ export function MessageScreen() {
       <div className="flex h-full flex-col bg-muted">
         {/* 品牌红头部 */}
         <div className="brand-gradient shrink-0 text-white">
-          <div className="flex items-center justify-between px-4 pt-2.5 text-[13px] font-medium tabular-nums">
-            <span>10:25</span>
-            <span className="flex items-center gap-1.5">
-              <span className="inline-block h-2.5 w-3.5 rounded-[2px] bg-white/80" aria-hidden />
-              <span className="inline-block h-2.5 w-5 rounded-[3px] border border-white/70" aria-hidden />
-            </span>
-          </div>
+          <StatusBar dark />
           <div className="flex h-11 items-center justify-center">
             <span className="text-[17px] font-semibold">消息</span>
           </div>

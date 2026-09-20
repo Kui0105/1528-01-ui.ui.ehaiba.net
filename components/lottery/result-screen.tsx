@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ChevronLeft, PartyPopper, Coins, Frown, Package } from "lucide-react"
 import { PhoneFrame } from "@/components/points-mall/phone-frame"
+import { StatusBar } from "@/components/shared/wechat-chrome"
 
 type ResultType = "prize" | "points" | "none"
 
@@ -47,13 +48,7 @@ export function ResultScreen() {
       <div className="flex h-full flex-col bg-muted">
         {/* 品牌红头部 */}
         <div className="brand-gradient shrink-0 text-white">
-          <div className="flex items-center justify-between px-5 pt-3 text-xs font-medium">
-            <span>10:25</span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full border border-white/70" aria-hidden />
-              <span className="h-2.5 w-4 rounded-sm border border-white/70" aria-hidden />
-            </span>
-          </div>
+          <StatusBar dark />
           <div className="relative flex h-11 items-center justify-center">
             <button
               type="button"

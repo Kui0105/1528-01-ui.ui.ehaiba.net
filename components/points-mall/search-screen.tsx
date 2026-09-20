@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { Search, ChevronLeft, X } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { ProductCard } from "./product-card"
+import { StatusBar } from "@/components/shared/wechat-chrome"
 import { hotKeywords, goods, sortTabs } from "@/lib/points-mall-data"
 import { cn } from "@/lib/utils"
 
@@ -36,13 +37,7 @@ export function SearchScreen() {
       <div className="flex h-full flex-col bg-muted">
         {/* 品牌红搜索头 */}
         <div className="brand-gradient shrink-0 text-white">
-          <div className="flex items-center justify-between px-4 pt-2.5 text-[13px] font-medium tabular-nums">
-            <span>10:25</span>
-            <span className="flex items-center gap-1.5">
-              <span className="inline-block h-2.5 w-3.5 rounded-[2px] bg-white/80" aria-hidden />
-              <span className="inline-block h-2.5 w-5 rounded-[3px] border border-white/70" aria-hidden />
-            </span>
-          </div>
+          <StatusBar dark />
           <div className="flex items-center gap-2 px-3 pb-3 pt-2">
             <button
               type="button"

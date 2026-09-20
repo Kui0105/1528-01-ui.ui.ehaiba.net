@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import { ChevronLeft } from "lucide-react"
 import { PhoneFrame } from "@/components/points-mall/phone-frame"
+import { StatusBar } from "@/components/shared/wechat-chrome"
 import { ruleSections } from "@/lib/points-mall-data"
 
 export function RuleScreen() {
@@ -13,13 +14,7 @@ export function RuleScreen() {
       <div className="flex h-full flex-col bg-white">
         {/* 白底头部 */}
         <div className="shrink-0 bg-white text-ink shadow-[0_1px_0_rgba(0,0,0,0.05)]">
-          <div className="flex items-center justify-between px-5 pt-3 text-xs font-medium text-muted-foreground">
-            <span>10:25</span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full border border-black/40" aria-hidden />
-              <span className="h-2.5 w-4 rounded-sm border border-black/40" aria-hidden />
-            </span>
-          </div>
+          <StatusBar />
           <div className="relative flex h-11 items-center justify-center">
             <button
               type="button"

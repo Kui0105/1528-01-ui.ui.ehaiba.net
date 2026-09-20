@@ -152,22 +152,22 @@ export const messages: MallMessage[] = [
 
 // 我的页订单入口（原型 profile.html）
 export const orderEntries = [
-  { key: "unpaid", label: "待付款", icon: "💰" },
-  { key: "unshipped", label: "待发货", icon: "📦" },
-  { key: "shipping", label: "待收货", icon: "🚚" },
-  { key: "done", label: "已完成", icon: "✅" },
+  { key: "unpaid", label: "待付款", icon: "/profile/unpaid.png" },
+  { key: "unshipped", label: "待发货", icon: "/profile/unshipped.png" },
+  { key: "shipping", label: "待收货", icon: "/profile/shipping.png" },
+  { key: "done", label: "已完成", icon: "/profile/done.png" },
 ]
 
 // 我的页功能菜单（原型 profile.html）
 export const profileMenu = [
-  { key: "promo", label: "业务推广", icon: "📢" },
-  { key: "console", label: "经销控制台", icon: "🏪" },
-  { key: "sales", label: "销售数据", icon: "📊" },
-  { key: "points", label: "积分明细", icon: "⭐" },
-  { key: "records", label: "中奖记录", icon: "🎁", href: "/lottery/records" },
-  { key: "address", label: "我的地址", icon: "📍" },
-  { key: "service", label: "联系客服", icon: "💬" },
-  { key: "about", label: "关于我们", icon: "ℹ️" },
+  { key: "promo", label: "业务推广", icon: "/profile/promo.png" },
+  { key: "console", label: "经销控制台", icon: "/profile/console.png" },
+  { key: "sales", label: "销售数据", icon: "/profile/sales.png" },
+  { key: "points", label: "积分明细", icon: "/profile/points.png" },
+  { key: "records", label: "中奖记录", icon: "/profile/records.png", href: "/lottery/records" },
+  { key: "address", label: "我的地址", icon: "/profile/address.png" },
+  { key: "service", label: "联系客服", icon: "/profile/service.png" },
+  { key: "about", label: "关于我们", icon: "/profile/about.png" },
 ]
 
 // 活动规则（原型 rule.html）
