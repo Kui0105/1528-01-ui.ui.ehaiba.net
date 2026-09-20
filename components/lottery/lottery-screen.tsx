@@ -22,7 +22,7 @@ export function LotteryScreen() {
     if (!loggedIn) {
       setShowAuth(true)
     } else {
-      router.push("/lottery/select")
+      router.push("/lottery/verify")
     }
   }
 
@@ -30,7 +30,7 @@ export function LotteryScreen() {
     setShowAuth(false)
     setLoggedIn(true)
     showToast("登录成功")
-    window.setTimeout(() => router.push("/lottery/select"), 600)
+    window.setTimeout(() => router.push("/lottery/verify"), 600)
   }
 
   return (

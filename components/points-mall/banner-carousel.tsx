@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { banners } from "@/lib/points-mall-data"
 import { cn } from "@/lib/utils"
 
 export function BannerCarousel() {
+  const router = useRouter()
   const [cur, setCur] = useState(0)
 
   // 原型：2s 自动播放
@@ -25,7 +27,7 @@ export function BannerCarousel() {
             <button
               key={b.id}
               type="button"
-              onClick={() => console.log("[v0] navigate to goods-list.html")}
+              onClick={() => router.push("/category")}
               className="relative h-full w-full shrink-0"
             >
               <Image src={b.image || "/placeholder.svg"} alt={b.alt} fill priority className="object-cover" />

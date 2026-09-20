@@ -1,14 +1,16 @@
 "use client"
 
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import type { Goods } from "@/lib/points-mall-data"
 
 export function ProductCard({ item }: { item: Goods }) {
+  const router = useRouter()
   return (
     <div className="flex flex-col overflow-hidden rounded-3xl bg-white text-left card-soft">
       <button
         type="button"
-        onClick={() => console.log(`[v0] navigate to goods-detail.html?id=${item.id}`)}
+        onClick={() => router.push(`/goods/${item.id}`)}
         className="relative aspect-square w-full bg-muted transition-transform active:scale-[0.98]"
       >
         <Image
@@ -35,7 +37,7 @@ export function ProductCard({ item }: { item: Goods }) {
 
         <button
           type="button"
-          onClick={() => console.log(`[v0] navigate to goods-detail.html?id=${item.id}`)}
+          onClick={() => router.push(`/goods/${item.id}`)}
           className="brand-gradient glow-brand mt-1 w-full rounded-full py-2 text-xs font-semibold text-white transition-transform active:scale-[0.97]"
         >
           立即兑换

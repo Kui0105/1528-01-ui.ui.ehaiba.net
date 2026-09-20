@@ -96,7 +96,7 @@ export function SelectScreen() {
       setProgress(1)
       showToast("恭喜撕开奖品！")
       window.setTimeout(() => {
-        console.log("[v0] navigate to p4-result.html?id=" + prizes[active].id)
+        router.push("/lottery/result?type=prize")
       }, 900)
     } else {
       // 未过阈值，回弹
@@ -174,11 +174,14 @@ export function SelectScreen() {
 
         {/* 右侧金色竖排标签 */}
         <div className="absolute right-0 top-40 z-20 flex flex-col gap-3">
-          {["活动规则", "中奖记录"].map((label) => (
+          {[
+            { label: "活动规则", href: "/lottery/rule" },
+            { label: "中奖记录", href: "/lottery/records" },
+          ].map(({ label, href }) => (
             <button
               key={label}
               type="button"
-              onClick={() => console.log(`[v0] open ${label}`)}
+              onClick={() => router.push(href)}
               className="gold-gradient glow-gold flex w-9 flex-col items-center justify-center gap-0.5 rounded-l-xl py-3 text-xs font-semibold leading-none text-[#7a4a12] shadow-md transition active:scale-95"
             >
               {label.split("").map((ch, i) => (
