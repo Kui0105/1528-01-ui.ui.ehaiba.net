@@ -1,19 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { ChevronRight } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
-import { Toast } from "@/components/lottery/toast"
 import { salesData } from "@/lib/points-mall-data"
 
 export function SalesScreen() {
-  const [toast, setToast] = useState("")
-
-  function showToast(msg: string) {
-    setToast(msg)
-    window.setTimeout(() => setToast(""), 1600)
-  }
+  const router = useRouter()
 
   return (
     <PhoneFrame>
@@ -26,7 +20,7 @@ export function SalesScreen() {
               <button
                 key={s.store}
                 type="button"
-                onClick={() => showToast(`${s.store} 明细敬请期待`)}
+                onClick={() => router.push("/sales-region")}
                 className="rounded-2xl bg-white p-4 text-left card-soft active:bg-black/[0.02]"
               >
                 <div className="flex items-center justify-between">
@@ -43,8 +37,6 @@ export function SalesScreen() {
           </div>
         </main>
       </div>
-
-      <Toast message={toast} />
     </PhoneFrame>
   )
 }

@@ -1,13 +1,28 @@
 "use client"
 
 import { useState } from "react"
-import { Store } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Store, ShoppingCart, FileText, Boxes, Store as StoreIcon, Users, LineChart, Gift, Coins, ClipboardList } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
 import { dealerInfo } from "@/lib/points-mall-data"
 
+const entryMeta: Record<string, { icon: typeof Store; color: string; href: string }> = {
+  进货商城: { icon: ShoppingCart, color: "#c9302c", href: "/purchase-mall" },
+  进货订单: { icon: FileText, color: "#e8833a", href: "/purchase-orders" },
+  产品库存: { icon: Boxes, color: "#4f7fd6", href: "/product-stock" },
+  门店管理: { icon: StoreIcon, color: "#2fa39a", href: "/store" },
+  业务管理: { icon: Users, color: "#8a5cd6", href: "/business-manage" },
+  销售明细: { icon: LineChart, color: "#3fae6f", href: "/sales-detail" },
+  兑奖明细: { icon: Gift, color: "#d4a843", href: "/prize-detail" },
+  物料商城: { icon: Gift, color: "#d1607a", href: "/material-mall" },
+  积分明细: { icon: Coins, color: "#c9302c", href: "/dealer-points-detail" },
+  物料订单: { icon: ClipboardList, color: "#4f7fd6", href: "/material-orders" },
+}
+
 export function DealerScreen() {
+  const router = useRouter()
   const [toast, setToast] = useState("")
 
   function showToast(msg: string) {
@@ -63,19 +78,26 @@ export function DealerScreen() {
           <section className="mt-3 rounded-2xl bg-white p-4 card-soft">
             <span className="text-[14px] font-bold text-ink">功能入口</span>
             <div className="mt-4 grid grid-cols-4 gap-y-5">
-              {dealerInfo.entries.map((e) => (
-                <button
-                  key={e}
-                  type="button"
-                  onClick={() => showToast(`${e}敬请期待`)}
-                  className="flex flex-col items-center gap-2 active:scale-95"
-                >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-muted">
-                    <span className="text-[11px] font-semibold text-brand">{e.slice(0, 2)}</span>
-                  </span>
-                  <span className="text-[11px] text-ink">{e}</span>
-                </button>
-              ))}
+              {dealerInfo.entries.map((e) => {
+                const meta = entryMeta[e]
+                const Icon = meta?.icon ?? Store
+                return (
+                  <button
+                    key={e}
+                    type="button"
+                    onClick={() => (meta ? router.push(meta.href) : showToast(`${e}敬请期待`))}
+                    className="flex flex-col items-center gap-2 active:scale-95"
+                  >
+                    <span
+                      className="flex h-11 w-11 items-center justify-center rounded-2xl"
+                      style={{ backgroundColor: `${meta?.color ?? "#c9302c"}14` }}
+                    >
+                      <Icon className="h-[22px] w-[22px]" style={{ color: meta?.color ?? "#c9302c" }} />
+                    </span>
+                    <span className="text-[11px] text-ink">{e}</span>
+                  </button>
+                )
+              })}
             </div>
           </section>
         </main>

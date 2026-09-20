@@ -91,7 +91,7 @@ export function OrderDetailScreen() {
           </button>
           <button
             type="button"
-            onClick={() => router.push("/message")}
+            onClick={() => router.push("/logistics")}
             className="brand-gradient rounded-full px-6 py-2 text-[13px] font-semibold text-white active:scale-95"
           >
             查看物流

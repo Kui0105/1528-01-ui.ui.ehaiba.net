@@ -1,21 +1,22 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronRight, User, PackageCheck, Undo2, BadgeCheck, Store, Boxes } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { ChevronRight, User, PackageCheck, FileText, Coins, Store } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
 import { promoteInfo } from "@/lib/points-mall-data"
 
-const entryMeta = [
-  { icon: PackageCheck, color: "#c9302c" },
-  { icon: Undo2, color: "#e8833a" },
-  { icon: BadgeCheck, color: "#3fae6f" },
-  { icon: Store, color: "#4f7fd6" },
-  { icon: Boxes, color: "#2fa39a" },
-]
+const entryMeta: Record<string, { icon: typeof User; color: string; href: string }> = {
+  产品激活: { icon: PackageCheck, color: "#c9302c", href: "/activate" },
+  产品明细: { icon: FileText, color: "#e8833a", href: "/product-detail" },
+  积分明细: { icon: Coins, color: "#3fae6f", href: "/salesman-points-detail" },
+  门店管理: { icon: Store, color: "#4f7fd6", href: "/store" },
+}
 
 export function PromoteScreen() {
+  const router = useRouter()
   const [toast, setToast] = useState("")
 
   function showToast(msg: string) {
@@ -44,7 +45,7 @@ export function PromoteScreen() {
           {/* 我的积分 */}
           <button
             type="button"
-            onClick={() => showToast("积分明细敬请期待")}
+            onClick={() => router.push("/salesman-points-detail")}
             className="mt-3 flex w-full items-center justify-between rounded-2xl bg-white p-4 text-left card-soft active:bg-black/[0.02]"
           >
             <div className="flex flex-col">
@@ -77,14 +78,14 @@ export function PromoteScreen() {
           <section className="mt-3 rounded-2xl bg-white p-4 card-soft">
             <span className="text-[14px] font-bold text-ink">常用功能</span>
             <div className="mt-4 grid grid-cols-4 gap-y-5">
-              {promoteInfo.entries.map((e, i) => {
-                const meta = entryMeta[i % entryMeta.length]
+              {promoteInfo.entries.map((e) => {
+                const meta = entryMeta[e] ?? { icon: User, color: "#c9302c", href: "" }
                 const Icon = meta.icon
                 return (
                   <button
                     key={e}
                     type="button"
-                    onClick={() => showToast(`${e}敬请期待`)}
+                    onClick={() => (meta.href ? router.push(meta.href) : showToast(`${e}敬请期待`))}
                     className="flex flex-col items-center gap-2 active:scale-95"
                   >
                     <span

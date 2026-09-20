@@ -1,19 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Plus, Pencil } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
-import { Toast } from "@/components/lottery/toast"
 import { addresses } from "@/lib/points-mall-data"
 
 export function AddressScreen() {
-  const [toast, setToast] = useState("")
-
-  function showToast(msg: string) {
-    setToast(msg)
-    window.setTimeout(() => setToast(""), 1600)
-  }
+  const router = useRouter()
 
   return (
     <PhoneFrame>
@@ -37,7 +31,7 @@ export function AddressScreen() {
                 <div className="mt-3 flex items-center justify-end border-t border-black/[0.06] pt-3">
                   <button
                     type="button"
-                    onClick={() => showToast("编辑地址敬请期待")}
+                    onClick={() => router.push(`/address-edit?id=${a.id}`)}
                     className="flex items-center gap-1 text-[13px] text-muted-foreground active:opacity-70"
                   >
                     <Pencil className="h-3.5 w-3.5" />
