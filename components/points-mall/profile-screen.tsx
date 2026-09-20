@@ -23,7 +23,7 @@ import { PhoneFrame } from "@/components/points-mall/phone-frame"
 import { StatusBar, Capsule } from "@/components/shared/wechat-chrome"
 import { BottomNav } from "@/components/points-mall/bottom-nav"
 import { Toast } from "@/components/lottery/toast"
-import { orderEntries, profileMenu, myPoints } from "@/lib/points-mall-data"
+import { orderEntries, profileMenu } from "@/lib/points-mall-data"
 
 // 订单入口图标 + 辅助色
 const orderMeta: Record<string, { icon: LucideIcon; color: string }> = {
@@ -141,21 +141,6 @@ export function ProfileScreen() {
                   )
                 })}
               </div>
-            </section>
-
-            {/* 积分卡 */}
-            <section className="gold-gradient flex items-center justify-between rounded-2xl px-5 py-4 text-[#7a4a12] card-soft">
-              <div className="flex flex-col">
-                <span className="text-[12px] font-medium">我的积分</span>
-                <span className="mt-0.5 text-2xl font-black">{myPoints.toLocaleString()}</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => router.push("/")}
-                className="rounded-full bg-[#7a4a12] px-4 py-2 text-[13px] font-bold text-white active:scale-95"
-              >
-                去兑换
-              </button>
             </section>
 
             {/* 功能菜单 */}
