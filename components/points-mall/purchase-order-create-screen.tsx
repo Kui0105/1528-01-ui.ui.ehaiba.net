@@ -2,21 +2,35 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
-import { ChevronDown, Package, CheckCircle2 } from "lucide-react"
+import Image from "next/image"
+import { Package, CheckCircle2, MapPin, ChevronRight } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
 import { purchaseProducts } from "@/lib/dealer-data"
+import { chinaRegions } from "@/lib/china-regions"
 
 type CartItem = { id: string; qty: number }
-
-const regions = ["长沙市天心区", "长沙市芙蓉区", "长沙市岳麓区", "长沙市开福区", "长沙市雨花区"]
 
 export function PurchaseOrderCreateScreen() {
   const router = useRouter()
   const [cart, setCart] = useState<CartItem[]>([])
-  const [region, setRegion] = useState("")
-  const [regionPicker, setRegionPicker] = useState(false)
+
+  // 收货信息
+  const [contact, setContact] = useState("")
+  const [phone, setPhone] = useState("")
+  const [province, setProvince] = useState("")
+  const [city, setCity] = useState("")
+  const [district, setDistrict] = useState("")
+  const [address, setAddress] = useState("")
+  const [remark, setRemark] = useState("")
+
+  // 区域选择器
+  const [regionOpen, setRegionOpen] = useState(false)
+  const [pickProvince, setPickProvince] = useState("")
+  const [pickCity, setPickCity] = useState("")
+  const [regionTab, setRegionTab] = useState<"province" | "city" | "district">("province")
+
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [success, setSuccess] = useState(false)
   const [toast, setToast] = useState("")
@@ -49,12 +63,23 @@ export function PurchaseOrderCreateScreen() {
   const totalCount = lines.reduce((sum, l) => sum + l.qty, 0)
   const totalPrice = lines.reduce((sum, l) => sum + l.product.price * l.qty, 0)
   const hasItems = lines.length > 0
+  const regionText = province ? `${province} ${city} ${district}` : ""
+
+  function openRegion() {
+    setPickProvince(province)
+    setPickCity(city)
+    setRegionTab("province")
+    setRegionOpen(true)
+  }
+
+  const cityOptions = chinaRegions.find((p) => p.name === pickProvince)?.cities ?? []
+  const districtOptions = cityOptions.find((c) => c.name === pickCity)?.districts ?? []
 
   function handleSubmit() {
-    if (!region) {
-      showToast("请选择进货地区")
-      return
-    }
+    if (!contact.trim()) return showToast("请填写联系人")
+    if (!/^1\d{10}$/.test(phone.trim())) return showToast("请填写正确的联系电话")
+    if (!province) return showToast("请选择省市区")
+    if (!address.trim()) return showToast("请填写详细地址")
     setConfirmOpen(true)
   }
 
@@ -66,42 +91,90 @@ export function PurchaseOrderCreateScreen() {
         {hasItems ? (
           <>
             <main className="no-scrollbar flex-1 overflow-y-auto p-3 pb-28">
-              {/* 进货商品 */}
+              {/* 收货信息 */}
               <div className="rounded-2xl bg-white p-4 card-soft">
-                <p className="mb-3 text-[14px] font-bold text-ink">进货商品</p>
+                <div className="mb-3 flex items-center gap-1.5">
+                  <MapPin className="h-4 w-4 text-brand" strokeWidth={2} />
+                  <p className="text-[14px] font-bold text-ink">收货信息</p>
+                </div>
+                <div className="flex flex-col gap-2.5">
+                  <div className="flex items-center gap-3">
+                    <span className="w-16 shrink-0 text-[13px] text-muted-foreground">联系人</span>
+                    <input
+                      value={contact}
+                      onChange={(e) => setContact(e.target.value)}
+                      placeholder="请输入联系人姓名"
+                      className="flex-1 bg-transparent text-right text-[14px] text-ink outline-none placeholder:text-muted-foreground/60"
+                    />
+                  </div>
+                  <div className="h-px bg-black/[0.05]" />
+                  <div className="flex items-center gap-3">
+                    <span className="w-16 shrink-0 text-[13px] text-muted-foreground">联系电话</span>
+                    <input
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 11))}
+                      inputMode="numeric"
+                      placeholder="请输入手机号码"
+                      className="flex-1 bg-transparent text-right text-[14px] text-ink outline-none placeholder:text-muted-foreground/60"
+                    />
+                  </div>
+                  <div className="h-px bg-black/[0.05]" />
+                  <button type="button" onClick={openRegion} className="flex items-center gap-3 text-left">
+                    <span className="w-16 shrink-0 text-[13px] text-muted-foreground">省市区</span>
+                    <span className={`flex-1 text-right text-[14px] ${regionText ? "text-ink" : "text-muted-foreground/60"}`}>
+                      {regionText || "请选择省 / 市 / 区"}
+                    </span>
+                    <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  </button>
+                  <div className="h-px bg-black/[0.05]" />
+                  <div className="flex items-start gap-3">
+                    <span className="w-16 shrink-0 pt-0.5 text-[13px] text-muted-foreground">详细地址</span>
+                    <textarea
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      rows={2}
+                      placeholder="请输入街道、门牌号等详细地址"
+                      className="flex-1 resize-none bg-transparent text-right text-[14px] text-ink outline-none placeholder:text-muted-foreground/60"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 商品清单 */}
+              <div className="mt-3 rounded-2xl bg-white p-4 card-soft">
+                <p className="mb-3 text-[14px] font-bold text-ink">商品清单</p>
                 <div className="flex flex-col gap-3">
                   {lines.map((l) => (
-                    <div key={l.product.id} className="flex items-center gap-3 border-b border-black/[0.05] pb-3 last:border-0 last:pb-0">
-                      <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand/10">
-                        <Package className="h-7 w-7 text-brand" strokeWidth={1.6} />
+                    <div
+                      key={l.product.id}
+                      className="flex items-center gap-3 border-b border-black/[0.05] pb-3 last:border-0 last:pb-0"
+                    >
+                      <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-muted">
+                        <Image src={l.product.image || "/placeholder.svg"} alt={l.product.name} fill className="object-cover" sizes="64px" />
                       </span>
                       <div className="flex flex-1 flex-col">
                         <span className="text-[14px] font-semibold text-ink">{l.product.name}</span>
                         <span className="mt-0.5 text-[12px] text-muted-foreground">{l.product.spec}</span>
-                        <span className="mt-1 text-[13px]">
-                          <span className="font-bold text-brand">¥{l.product.price}</span>
-                          <span className="text-muted-foreground"> × {l.qty}</span>
-                        </span>
+                        <div className="mt-1 flex items-center justify-between">
+                          <span className="text-[14px] font-bold text-brand">¥{l.product.price}</span>
+                          <span className="text-[13px] text-muted-foreground">×{l.qty}</span>
+                        </div>
                       </div>
-                      <span className="shrink-0 text-[14px] font-black text-brand">
-                        ¥{(l.product.price * l.qty).toLocaleString()}
-                      </span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* 进货地区 */}
+              {/* 进货备注 */}
               <div className="mt-3 rounded-2xl bg-white p-4 card-soft">
-                <p className="mb-3 text-[14px] font-bold text-ink">进货地区</p>
-                <button
-                  type="button"
-                  onClick={() => setRegionPicker(true)}
-                  className="flex w-full items-center justify-between rounded-xl bg-muted px-3.5 py-3 text-[13px]"
-                >
-                  <span className={region ? "text-ink" : "text-muted-foreground"}>{region || "请选择进货地区"}</span>
-                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                </button>
+                <p className="mb-2.5 text-[14px] font-bold text-ink">进货备注</p>
+                <textarea
+                  value={remark}
+                  onChange={(e) => setRemark(e.target.value)}
+                  rows={3}
+                  placeholder="选填，填写对本次进货的特殊说明"
+                  className="w-full resize-none rounded-xl bg-muted px-3.5 py-3 text-[13px] text-ink outline-none placeholder:text-muted-foreground/60"
+                />
               </div>
 
               {/* 金额汇总 */}
@@ -149,31 +222,97 @@ export function PurchaseOrderCreateScreen() {
           </div>
         )}
 
-        {/* 地区选择弹层 */}
-        {regionPicker && (
-          <div className="absolute inset-0 z-40 flex flex-col justify-end bg-black/40" onClick={() => setRegionPicker(false)}>
-            <div className="rounded-t-2xl bg-white pb-4" onClick={(e) => e.stopPropagation()}>
+        {/* 省市区三级联动选择弹层 */}
+        {regionOpen && (
+          <div className="absolute inset-0 z-40 flex flex-col justify-end bg-black/40" onClick={() => setRegionOpen(false)}>
+            <div className="flex max-h-[70%] flex-col rounded-t-2xl bg-white" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-3">
-                <span className="text-[15px] font-semibold text-ink">选择地区</span>
-                <button type="button" onClick={() => setRegionPicker(false)} className="text-[13px] text-muted-foreground">
+                <span className="text-[15px] font-semibold text-ink">选择所在地区</span>
+                <button type="button" onClick={() => setRegionOpen(false)} className="text-[13px] text-muted-foreground">
                   取消
                 </button>
               </div>
-              {regions.map((r) => (
+
+              {/* 已选层级 Tab */}
+              <div className="flex items-center gap-4 border-b border-black/[0.06] px-4 py-2.5 text-[14px]">
                 <button
-                  key={r}
                   type="button"
-                  onClick={() => {
-                    setRegion(r)
-                    setRegionPicker(false)
-                  }}
-                  className={`flex w-full items-center px-4 py-3 text-left text-[14px] active:bg-black/[0.03] ${
-                    region === r ? "font-semibold text-brand" : "text-ink"
-                  }`}
+                  onClick={() => setRegionTab("province")}
+                  className={regionTab === "province" ? "font-semibold text-brand" : "text-muted-foreground"}
                 >
-                  {r}
+                  {pickProvince || "请选择"}
                 </button>
-              ))}
+                {pickProvince && (
+                  <button
+                    type="button"
+                    onClick={() => setRegionTab("city")}
+                    className={regionTab === "city" ? "font-semibold text-brand" : "text-muted-foreground"}
+                  >
+                    {pickCity || "请选择"}
+                  </button>
+                )}
+                {pickCity && (
+                  <button
+                    type="button"
+                    onClick={() => setRegionTab("district")}
+                    className={regionTab === "district" ? "font-semibold text-brand" : "text-muted-foreground"}
+                  >
+                    请选择
+                  </button>
+                )}
+              </div>
+
+              <div className="no-scrollbar flex-1 overflow-y-auto">
+                {regionTab === "province" &&
+                  chinaRegions.map((p) => (
+                    <button
+                      key={p.name}
+                      type="button"
+                      onClick={() => {
+                        setPickProvince(p.name)
+                        setPickCity("")
+                        setRegionTab("city")
+                      }}
+                      className={`flex w-full items-center px-4 py-3 text-left text-[14px] active:bg-black/[0.03] ${
+                        pickProvince === p.name ? "font-semibold text-brand" : "text-ink"
+                      }`}
+                    >
+                      {p.name}
+                    </button>
+                  ))}
+                {regionTab === "city" &&
+                  cityOptions.map((c) => (
+                    <button
+                      key={c.name}
+                      type="button"
+                      onClick={() => {
+                        setPickCity(c.name)
+                        setRegionTab("district")
+                      }}
+                      className={`flex w-full items-center px-4 py-3 text-left text-[14px] active:bg-black/[0.03] ${
+                        pickCity === c.name ? "font-semibold text-brand" : "text-ink"
+                      }`}
+                    >
+                      {c.name}
+                    </button>
+                  ))}
+                {regionTab === "district" &&
+                  districtOptions.map((d) => (
+                    <button
+                      key={d}
+                      type="button"
+                      onClick={() => {
+                        setProvince(pickProvince)
+                        setCity(pickCity)
+                        setDistrict(d)
+                        setRegionOpen(false)
+                      }}
+                      className="flex w-full items-center px-4 py-3 text-left text-[14px] text-ink active:bg-black/[0.03]"
+                    >
+                      {d}
+                    </button>
+                  ))}
+              </div>
             </div>
           </div>
         )}
