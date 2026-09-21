@@ -92,6 +92,9 @@ export const lotteryRecords: LotteryRecord[] = [
 ]
 
 // 消息中心（原型 message.html：订单消息 / 预警消息）
+// 身份：业务员 / 经销商 / 销售
+export type MessageRole = "salesman" | "dealer" | "sales"
+
 export type MallMessage = {
   id: string
   tab: "order" | "warning"
@@ -100,53 +103,116 @@ export type MallMessage = {
   tag: string
   time: string
   unread: boolean
+  // 订单消息：点击进入对应订单详情
+  orderId?: string
+  // 预警消息：可见身份 + 库存预警类型（门店库存 / 经销商库存）
+  warnRoles?: MessageRole[]
+  warnType?: "store" | "dealer"
+  target?: string
 }
 
+// 订单消息：仅 待支付 / 支付成功 / 订单发货 三类，点击进入对应订单详情
 export const messages: MallMessage[] = [
   {
     id: "m1",
     tab: "order",
-    title: "兑换成功通知",
-    body: "您已成功兑换 迈极炫定制打火机 x1，消耗 500 积分 + ¥6.00 运费，预计 30 分钟内发货。",
-    tag: "已兑换",
+    title: "订单待支付",
+    body: "您有一笔订单待支付：迈极炫定制打火机 x1，共需 500 积分 + ¥6.00 运费，请于 30 分钟内完成支付。",
+    tag: "待支付",
     time: "10分钟前",
     unread: true,
+    orderId: "XJM20260827001",
   },
   {
     id: "m2",
     tab: "order",
-    title: "发货提醒通知",
-    body: "订单 XJM20260827001 已发货，请留意物流信息。",
-    tag: "已发货",
+    title: "订单支付成功",
+    body: "您的订单 XJM20260827001 已支付成功，商家将尽快为您发货。",
+    tag: "支付成功",
     time: "35分钟前",
     unread: true,
+    orderId: "XJM20260827001",
   },
   {
     id: "m3",
     tab: "order",
-    title: "物流更新通知",
-    body: "订单 XJM20260826003 已揽收，物流单号 SF1234567890。",
-    tag: "运输中",
+    title: "订单已发货",
+    body: "您的订单 XJM20260827003 已由顺丰速运发出，运单号 SF1234567890。",
+    tag: "订单发货",
     time: "昨天 18:20",
     unread: true,
+    orderId: "XJM20260827003",
   },
   {
     id: "m4",
     tab: "order",
-    title: "签收成功通知",
-    body: "订单 XJM20260825004 已签收，感谢您的兑换。",
-    tag: "已签收",
+    title: "订单支付成功",
+    body: "您的订单 XJM20260827004 已支付成功，等待商家发货。",
+    tag: "支付成功",
     time: "08-25 14:12",
     unread: false,
+    orderId: "XJM20260827004",
   },
   {
     id: "m5",
-    tab: "warning",
-    title: "积分预警通知",
-    body: "订单 XJM20260824005 积分即将到期，请及时使用。",
-    tag: "预警",
+    tab: "order",
+    title: "订单已发货",
+    body: "您的订单 XJM20260827005 已发货，请注意查收。",
+    tag: "订单发货",
     time: "08-24 11:05",
     unread: false,
+    orderId: "XJM20260827005",
+  },
+  // —— 预警消息 ——
+  // 门店库存不足：业务员 / 经销商 / 销售 均可见，点击跳转门店管理列表
+  {
+    id: "w1",
+    tab: "warning",
+    title: "门店库存不足预警",
+    body: "长沙旗舰店 现有库存 8 件，已低于安全库存（20 件），请及时补货。",
+    tag: "门店库存",
+    time: "20分钟前",
+    unread: true,
+    warnRoles: ["salesman", "dealer", "sales"],
+    warnType: "store",
+    target: "长沙旗舰店",
+  },
+  {
+    id: "w2",
+    tab: "warning",
+    title: "门店库存不足预警",
+    body: "开福分店 现有库存 5 件，已低于安全库存（20 件），请及时补货。",
+    tag: "门店库存",
+    time: "1小时前",
+    unread: true,
+    warnRoles: ["salesman", "dealer", "sales"],
+    warnType: "store",
+    target: "开福分店",
+  },
+  // 经销商库存不足：仅销售身份可见，点击跳转区域详情（销售数据-区域详情）
+  {
+    id: "w3",
+    tab: "warning",
+    title: "经销商库存不足预警",
+    body: "长沙总经销 现有库存 120 件，已低于安全库存（500 件），请及时安排进货。",
+    tag: "经销商库存",
+    time: "昨天 15:40",
+    unread: true,
+    warnRoles: ["sales"],
+    warnType: "dealer",
+    target: "长沙总经销",
+  },
+  {
+    id: "w4",
+    tab: "warning",
+    title: "经销商库存不足预警",
+    body: "岳阳经销商 现有库存 90 件，已低于安全库存（500 件），请及时安排进货。",
+    tag: "经销商库存",
+    time: "08-24 11:05",
+    unread: false,
+    warnRoles: ["sales"],
+    warnType: "dealer",
+    target: "岳阳经销商",
   },
 ]
 
@@ -276,7 +342,7 @@ export const promoteInfo = {
 
 // 经销控制台（原型 dealer.html）
 export const dealerInfo = {
-  name: "长沙兴盛商贸有限公司",
+  name: "长沙兴盛���贸有限公司",
   status: "启用",
   province: "湖南省 长沙市",
   region: "华中大区 · 湖南省",
