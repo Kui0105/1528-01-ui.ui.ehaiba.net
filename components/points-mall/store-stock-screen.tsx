@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { Package } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { stores, storeStockTabs, storeStockItems } from "@/lib/dealer-data"
@@ -45,9 +44,11 @@ export function StoreStockScreen() {
           <div className="flex flex-col gap-3">
             {list.map((s) => (
               <div key={s.id} className="flex items-center gap-3 rounded-2xl bg-white p-3 card-soft">
-                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-brand/10">
-                  <Package className="h-8 w-8 text-brand" strokeWidth={1.6} />
-                </span>
+                <img
+                  src={s.image || "/placeholder.svg"}
+                  alt={s.name}
+                  className="h-16 w-16 shrink-0 rounded-xl bg-white object-contain"
+                />
                 <div className="flex flex-1 flex-col">
                   <span className="text-[14px] font-semibold text-ink">{s.name}</span>
                   <span className="mt-1 text-[12px] text-muted-foreground">{s.spec}</span>

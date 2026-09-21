@@ -168,7 +168,7 @@ export const salesmanOptions = ["刘伟", "陈静", "张三", "李四", "王五"
 export const storeStock = [
   { name: "迈极炫冰爽槟榔 20元装", stock: 320, unit: "条" },
   { name: "迈极炫冰爽槟榔 50元装", stock: 186, unit: "条" },
-  { name: "迈极炫至��槟榔 100元装", stock: 92, unit: "条" },
+  { name: "迈极炫至���槟榔 100元装", stock: 92, unit: "条" },
   { name: "迈极炫经典槟榔礼盒", stock: 48, unit: "盒" },
 ]
 
@@ -189,15 +189,16 @@ export const storeSalesOrders = [
   spec: string
   stock: number
   unit: string
+  image: string
   }
 
   export const storeStockItems: StoreStockItem[] = [
-  { id: "ss1", name: "迈极炫槟榔 20元装", series: "20元系列", spec: "12颗/袋", stock: 18, unit: "件" },
-  { id: "ss2", name: "迈极炫槟榔 50元装", series: "50元系列", spec: "15颗/袋", stock: 8, unit: "件" },
-  { id: "ss3", name: "迈极炫槟榔 100元装", series: "100元系列", spec: "20颗/袋", stock: 5, unit: "件" },
-  { id: "ss4", name: "迈极炫定制打火机", series: "100元系列", spec: "金属/防风", stock: 20, unit: "件" },
-  { id: "ss5", name: "品牌毛巾套装", series: "50元系列", spec: "3条装", stock: 5, unit: "件" },
-  { id: "ss6", name: "迈极炫礼盒套装", series: "100元系列", spec: "100元系列专属", stock: 3, unit: "件" },
+  { id: "ss1", name: "迈极炫槟榔 20元装", series: "20元系列", spec: "12颗/袋", stock: 18, unit: "件", image: "/products/box-20.png" },
+  { id: "ss2", name: "迈极炫槟榔 50元装", series: "50元系列", spec: "15颗/袋", stock: 8, unit: "件", image: "/products/box-50.png" },
+  { id: "ss3", name: "迈极炫槟榔 100元装", series: "100元系列", spec: "20颗/袋", stock: 5, unit: "件", image: "/products/box-100.png" },
+  { id: "ss4", name: "迈极炫定制打火机", series: "100元系列", spec: "金属/防风", stock: 20, unit: "件", image: "/products/gift-box.png" },
+  { id: "ss5", name: "品牌毛巾套装", series: "50元系列", spec: "3条装", stock: 5, unit: "件", image: "/products/gift-box.png" },
+  { id: "ss6", name: "迈极炫礼盒套装", series: "100元系列", spec: "100元系列专属", stock: 3, unit: "件", image: "/products/gift-box.png" },
   ]
 
   // —— 门店变动记录（原型 store-logs.html）——
