@@ -97,44 +97,44 @@ export function PurchaseOrderCreateScreen() {
                   <MapPin className="h-4 w-4 text-brand" strokeWidth={2} />
                   <p className="text-[14px] font-bold text-ink">收货信息</p>
                 </div>
-                <div className="flex flex-col gap-2.5">
-                  <div className="flex items-center gap-3">
-                    <span className="w-16 shrink-0 text-[13px] text-muted-foreground">联系人</span>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-3 py-2.5">
+                    <span className="w-[70px] shrink-0 text-[13px] text-muted-foreground">联系人</span>
                     <input
                       value={contact}
                       onChange={(e) => setContact(e.target.value)}
                       placeholder="请输入联系人姓名"
-                      className="flex-1 bg-transparent text-right text-[14px] text-ink outline-none placeholder:text-muted-foreground/60"
+                      className="flex-1 bg-transparent text-[14px] text-ink outline-none placeholder:text-muted-foreground/50"
                     />
                   </div>
                   <div className="h-px bg-black/[0.05]" />
-                  <div className="flex items-center gap-3">
-                    <span className="w-16 shrink-0 text-[13px] text-muted-foreground">联系电话</span>
+                  <div className="flex items-center gap-3 py-2.5">
+                    <span className="w-[70px] shrink-0 text-[13px] text-muted-foreground">联系电话</span>
                     <input
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 11))}
                       inputMode="numeric"
                       placeholder="请输入手机号码"
-                      className="flex-1 bg-transparent text-right text-[14px] text-ink outline-none placeholder:text-muted-foreground/60"
+                      className="flex-1 bg-transparent text-[14px] text-ink outline-none placeholder:text-muted-foreground/50"
                     />
                   </div>
                   <div className="h-px bg-black/[0.05]" />
-                  <button type="button" onClick={openRegion} className="flex items-center gap-3 text-left">
-                    <span className="w-16 shrink-0 text-[13px] text-muted-foreground">省市区</span>
-                    <span className={`flex-1 text-right text-[14px] ${regionText ? "text-ink" : "text-muted-foreground/60"}`}>
+                  <button type="button" onClick={openRegion} className="flex items-center gap-3 py-2.5 text-left">
+                    <span className="w-[70px] shrink-0 text-[13px] text-muted-foreground">所在地区</span>
+                    <span className={`flex-1 text-[14px] ${regionText ? "text-ink" : "text-muted-foreground/50"}`}>
                       {regionText || "请选择省 / 市 / 区"}
                     </span>
                     <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
                   </button>
                   <div className="h-px bg-black/[0.05]" />
-                  <div className="flex items-start gap-3">
-                    <span className="w-16 shrink-0 pt-0.5 text-[13px] text-muted-foreground">详细地址</span>
+                  <div className="flex flex-col gap-2 py-2.5">
+                    <span className="text-[13px] text-muted-foreground">详细地址</span>
                     <textarea
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       rows={2}
                       placeholder="请输入街道、门牌号等详细地址"
-                      className="flex-1 resize-none bg-transparent text-right text-[14px] text-ink outline-none placeholder:text-muted-foreground/60"
+                      className="w-full resize-none rounded-xl bg-muted px-3 py-2.5 text-[14px] leading-relaxed text-ink outline-none placeholder:text-muted-foreground/50"
                     />
                   </div>
                 </div>
