@@ -46,7 +46,7 @@ export function MessageScreen() {
           </div>
         </div>
 
-        <main className="no-scrollbar flex-1 overflow-y-auto p-3 pb-24">
+        <main className="no-scrollbar flex-1 overflow-y-auto p-3 pb-8">
           {list.length === 0 ? (
             <p className="mt-16 text-center text-sm text-muted-foreground">暂无消息</p>
           ) : (

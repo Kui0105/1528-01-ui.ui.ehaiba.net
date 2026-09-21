@@ -16,8 +16,8 @@ export function BottomNav({ active = "home" }: { active?: TabKey }) {
   const router = useRouter()
   return (
     <>
-      {/* 底部渐变遮罩, 让浮动玻璃层次更清晰 */}
-      <div className="pointer-events-none absolute inset-x-0 -top-8 bottom-0 z-[-1] bg-gradient-to-t from-white/80 to-transparent" />
+      {/* 极轻的底部渐隐, 仅托一层柔光, 不遮挡内容以保留毛玻璃透视 */}
+      <div className="pointer-events-none absolute inset-x-0 -top-6 bottom-0 z-[-1] bg-gradient-to-t from-black/[0.04] to-transparent" />
 
       {/* 扫码悬浮按钮 */}
       <button

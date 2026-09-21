@@ -99,7 +99,7 @@ export function ProfileScreen() {
           </div>
         </div>
 
-        <main className="no-scrollbar flex-1 overflow-y-auto px-4 pb-24 pt-3">
+        <main className="no-scrollbar flex-1 overflow-y-auto px-4 pb-8 pt-3">
           <div className="flex flex-col gap-3">
             {/* 我的订单 */}
             <section className="rounded-2xl bg-white p-4 card-soft">
