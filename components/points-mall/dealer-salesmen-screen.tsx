@@ -53,25 +53,26 @@ export function DealerSalesmenScreen() {
               {list.map((s) => (
                 <div key={s.id} className="rounded-2xl bg-white p-4 card-soft">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand/10 text-[13px] font-bold text-brand">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/10 text-[14px] font-bold text-brand">
                       {s.name.slice(0, 1)}
                     </span>
-                    <span className="text-[15px] font-bold text-ink">{s.name}</span>
+                    <div className="flex min-w-0 flex-1 flex-col">
+                      <span className="truncate text-[15px] font-bold text-ink">{s.name}</span>
+                      <span className="text-[12px] text-muted-foreground">{s.region} · 名下 {s.stores} 家门店</span>
+                    </div>
                     <span
-                      className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
+                      className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold ${
                         s.status === "在职" ? "bg-brand/10 text-brand" : "bg-black/[0.06] text-muted-foreground"
                       }`}
                     >
                       {s.status}
                     </span>
                   </div>
-                  <div className="mt-3 flex flex-col gap-1.5 text-[13px]">
+                  <div className="mt-3 flex flex-col gap-2 text-[13px]">
                     <InfoRow label="联系电话" value={s.phone} />
-                    <InfoRow label="所属区域" value={s.region} />
-                    <InfoRow label="门店数" value={`${s.stores}`} />
                     <InfoRow label="创建时间" value={s.createdAt} />
                   </div>
-                  <div className="mt-3 grid grid-cols-3 divide-x divide-black/[0.06] border-t border-black/[0.06] pt-3">
+                  <div className="mt-3 grid grid-cols-3 gap-2">
                     <StatCell label="激活量" value={s.stat.activation} />
                     <StatCell label="动销量" value={s.stat.moving} />
                     <StatCell label="中奖量" value={s.stat.winning} />
@@ -88,7 +89,7 @@ export function DealerSalesmenScreen() {
 
 function StatCell({ label, value }: { label: string; value: number }) {
   return (
-    <div className="flex flex-col items-center gap-0.5 px-2">
+    <div className="flex flex-col items-center gap-0.5 rounded-xl bg-muted py-2">
       <span className="text-[18px] font-bold tabular-nums text-brand">{value.toLocaleString()}</span>
       <span className="text-[11px] text-muted-foreground">{label}</span>
     </div>
