@@ -44,14 +44,14 @@ export function SettingsScreen() {
           </section>
         </main>
 
-        {/* 退出登录 */}
+        {/* 保存 */}
         <div className="absolute inset-x-0 bottom-0 z-20 px-4 pb-4">
           <button
             type="button"
-            onClick={() => showToast("已退出登录")}
+            onClick={() => showToast("保存成功")}
             className="w-full rounded-full bg-brand py-3 text-base font-bold text-white active:scale-[0.98]"
           >
-            退出登录
+            保存
           </button>
         </div>
       </div>
