@@ -356,20 +356,181 @@ export const dealerInfo = {
   entries: ["进货商城", "进货订单", "产品库存", "门店管理", "业务管理", "销售明细", "兑奖明细", "物料商城", "积分明细", "物料订单"],
 }
 
-// 销售数据（原型 sales.html）
-export type SalesRow = {
-  store: string
-  order: number
-  active: number
-  amount: number
+// 销售数据（原型 sales.html）多级下钻：省份 → 市 → 经销商
+export type SalesMetric = { dealers: number; salesmen: number; stores: number }
+
+export type SalesDealer = {
+  id: string
+  name: string
+  status: "启用" | "禁用"
+  contact: string
+  phone: string
+  location: string // 省市
+  region: string // 销售区域
+  salesmen: number
+  stores: number
 }
 
-export const salesData: SalesRow[] = [
-  { store: "长沙旗舰店", order: 28, active: 156, amount: 482 },
-  { store: "岳麓分店", order: 22, active: 134, amount: 396 },
-  { store: "开福分店", order: 35, active: 201, amount: 623 },
-  { store: "天心分店", order: 18, active: 98, amount: 287 },
-  { store: "雨花分店", order: 25, active: 167, amount: 412 },
+export type SalesCity = {
+  id: string
+  name: string
+  metric: SalesMetric
+  dealers: SalesDealer[]
+}
+
+export type SalesProvince = {
+  id: string
+  name: string
+  metric: SalesMetric
+  cities: SalesCity[]
+}
+
+export const salesProvinces: SalesProvince[] = [
+  {
+    id: "p1",
+    name: "湖南省",
+    metric: { dealers: 28, salesmen: 156, stores: 482 },
+    cities: [
+      {
+        id: "c11",
+        name: "长沙市",
+        metric: { dealers: 8, salesmen: 45, stores: 142 },
+        dealers: [
+          { id: "d111", name: "长沙兴盛商贸有限公司", status: "启用", contact: "刘经理", phone: "138****1234", location: "湖南省长沙市", region: "长沙市天心区", salesmen: 6, stores: 18 },
+          { id: "d112", name: "长沙锦程贸易有限公司", status: "禁用", contact: "陈经理", phone: "139****5678", location: "湖南省长沙市", region: "长沙市岳麓区", salesmen: 5, stores: 15 },
+          { id: "d113", name: "长沙联华批发部", status: "启用", contact: "张老板", phone: "137****9012", location: "湖南省长沙市", region: "长沙市开福区", salesmen: 4, stores: 12 },
+        ],
+      },
+      {
+        id: "c12",
+        name: "株洲市",
+        metric: { dealers: 5, salesmen: 28, stores: 86 },
+        dealers: [
+          { id: "d121", name: "株洲鸿运商贸", status: "启用", contact: "王经理", phone: "136****2345", location: "湖南省株洲市", region: "株洲市天元区", salesmen: 5, stores: 16 },
+          { id: "d122", name: "株洲百盛批发", status: "启用", contact: "李老板", phone: "135****6789", location: "湖南省株洲市", region: "株洲市芦淞区", salesmen: 4, stores: 11 },
+        ],
+      },
+      {
+        id: "c13",
+        name: "湘潭市",
+        metric: { dealers: 4, salesmen: 22, stores: 68 },
+        dealers: [
+          { id: "d131", name: "湘潭万家商贸", status: "启用", contact: "周经理", phone: "134****3456", location: "湖南省湘潭市", region: "湘潭市雨湖区", salesmen: 5, stores: 14 },
+        ],
+      },
+      {
+        id: "c14",
+        name: "衡阳市",
+        metric: { dealers: 6, salesmen: 34, stores: 98 },
+        dealers: [
+          { id: "d141", name: "衡阳恒隆贸易", status: "启用", contact: "赵经理", phone: "133****4567", location: "湖南省衡阳市", region: "衡阳市雁峰区", salesmen: 6, stores: 17 },
+        ],
+      },
+      {
+        id: "c15",
+        name: "岳阳市",
+        metric: { dealers: 5, salesmen: 27, stores: 88 },
+        dealers: [
+          { id: "d151", name: "岳阳楼商贸有限公司", status: "启用", contact: "孙经理", phone: "132****5678", location: "湖南省岳阳市", region: "岳阳市岳阳楼区", salesmen: 5, stores: 15 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p2",
+    name: "湖北省",
+    metric: { dealers: 22, salesmen: 134, stores: 396 },
+    cities: [
+      {
+        id: "c21",
+        name: "武汉市",
+        metric: { dealers: 10, salesmen: 62, stores: 180 },
+        dealers: [
+          { id: "d211", name: "武汉江城商贸有限公司", status: "启用", contact: "胡经理", phone: "131****1122", location: "湖北省武汉市", region: "武汉市江汉区", salesmen: 8, stores: 22 },
+          { id: "d212", name: "武汉盛世批发", status: "启用", contact: "吴老板", phone: "130****3344", location: "湖北省武汉市", region: "武汉市武昌区", salesmen: 6, stores: 18 },
+        ],
+      },
+      {
+        id: "c22",
+        name: "宜昌市",
+        metric: { dealers: 6, salesmen: 38, stores: 112 },
+        dealers: [
+          { id: "d221", name: "宜昌三峡商贸", status: "启用", contact: "郑经理", phone: "139****5566", location: "湖北省宜昌市", region: "宜昌市西陵区", salesmen: 5, stores: 15 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p3",
+    name: "广东省",
+    metric: { dealers: 35, salesmen: 201, stores: 623 },
+    cities: [
+      {
+        id: "c31",
+        name: "广州市",
+        metric: { dealers: 15, salesmen: 92, stores: 280 },
+        dealers: [
+          { id: "d311", name: "广州盈丰贸易有限公司", status: "启用", contact: "何经理", phone: "138****7788", location: "广东省广州市", region: "广州市天河区", salesmen: 10, stores: 30 },
+          { id: "d312", name: "广州兴发批发", status: "禁用", contact: "梁老板", phone: "137****9900", location: "广东省广州市", region: "广州市白云区", salesmen: 7, stores: 20 },
+        ],
+      },
+      {
+        id: "c32",
+        name: "深圳市",
+        metric: { dealers: 12, salesmen: 68, stores: 210 },
+        dealers: [
+          { id: "d321", name: "深圳鹏程商贸", status: "启用", contact: "黄经理", phone: "136****2233", location: "广东省深圳市", region: "深圳市南山区", salesmen: 9, stores: 26 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p4",
+    name: "江西省",
+    metric: { dealers: 18, salesmen: 98, stores: 287 },
+    cities: [
+      {
+        id: "c41",
+        name: "南昌市",
+        metric: { dealers: 9, salesmen: 52, stores: 150 },
+        dealers: [
+          { id: "d411", name: "南昌洪城商贸", status: "启用", contact: "熊经理", phone: "135****4455", location: "江西省南昌市", region: "南昌市东湖区", salesmen: 7, stores: 21 },
+        ],
+      },
+      {
+        id: "c42",
+        name: "赣州市",
+        metric: { dealers: 5, salesmen: 26, stores: 78 },
+        dealers: [
+          { id: "d421", name: "赣州客家商贸", status: "启用", contact: "刘老板", phone: "134****6677", location: "江西省赣州市", region: "赣州市章贡区", salesmen: 5, stores: 14 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "p5",
+    name: "四川省",
+    metric: { dealers: 25, salesmen: 167, stores: 412 },
+    cities: [
+      {
+        id: "c51",
+        name: "成都市",
+        metric: { dealers: 14, salesmen: 96, stores: 240 },
+        dealers: [
+          { id: "d511", name: "成都锦官商贸有限公司", status: "启用", contact: "杨经理", phone: "138****8899", location: "四川省成都市", region: "成都市锦江区", salesmen: 11, stores: 32 },
+          { id: "d512", name: "成都天府批发", status: "启用", contact: "罗老板", phone: "137****1010", location: "四川省成都市", region: "成都市武侯区", salesmen: 8, stores: 24 },
+        ],
+      },
+      {
+        id: "c52",
+        name: "绵阳市",
+        metric: { dealers: 6, salesmen: 40, stores: 96 },
+        dealers: [
+          { id: "d521", name: "绵阳科技城商贸", status: "启用", contact: "邓经理", phone: "136****1212", location: "四川省绵阳市", region: "绵阳市涪城区", salesmen: 5, stores: 16 },
+        ],
+      },
+    ],
+  },
 ]
 
 // 关于我们（原型 about.html）
@@ -413,7 +574,7 @@ export const ruleSections = [
   {
     title: "二、参与方式",
     items: [
-      "用户在迈极炫线下合作门店购买指定活动商品后，使用微信扫描���装外码即可进入抽奖页面。",
+      "用户在迈极炫线下合作门店购买指定活动商品后，使用微信扫�����装外码即可进入抽奖页面。",
       "扫描外码后，需刮开产品内袋涂层，输入 4 位验证码完成验证，即可参与抽奖。",
       "每个内袋验证码仅限使用一次，重复扫码将直接展示历史抽奖结果。",
     ],
