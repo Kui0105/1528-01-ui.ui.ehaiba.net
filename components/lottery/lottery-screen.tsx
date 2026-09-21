@@ -81,16 +81,11 @@ export function LotteryScreen() {
         </div>
 
         {/* 海报主体 */}
-        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 text-center">
-          <div className="gold-gradient bg-clip-text text-6xl font-black tracking-tight text-transparent drop-shadow-[0_2px_12px_rgba(212,168,67,0.45)]">
-            迈极炫
-          </div>
-          <p className="mt-4 text-lg font-medium tracking-wide text-white/90">扫码赢好礼 · 即刻开抽</p>
-
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-end px-6 pb-10 text-center">
           <button
             type="button"
             onClick={onLottery}
-            className="brand-gradient glow-brand mt-14 rounded-full px-16 py-4 text-xl font-bold text-white ring-2 ring-white/30 transition-transform active:scale-95"
+            className="rounded-full bg-gradient-to-b from-[#FFE08A] via-[#F5B739] to-[#E1932B] px-16 py-4 text-xl font-black tracking-wide text-[#7a2e0c] shadow-[0_8px_24px_rgba(225,147,43,0.55)] ring-2 ring-white/60 transition-transform active:scale-95"
           >
             立即抽奖
           </button>
