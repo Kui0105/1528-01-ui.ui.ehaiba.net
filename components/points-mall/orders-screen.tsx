@@ -36,20 +36,20 @@ export function OrdersScreen() {
         <MobileNavBar title="我的订单" />
 
         {/* 状态 Tab */}
-        <div className="no-scrollbar flex shrink-0 items-center overflow-x-auto border-b border-black/[0.06] bg-white text-[13px]">
+        <div className="flex shrink-0 items-center border-b border-black/[0.06] bg-white text-[13px]">
           {orderTabs.map((t) => (
             <button
               key={t.key}
               type="button"
               onClick={() => setTab(t.key)}
               className={cn(
-                "relative shrink-0 px-4 py-3 font-medium transition-colors",
+                "relative flex-1 py-3 text-center font-medium transition-colors",
                 tab === t.key ? "text-brand" : "text-muted-foreground",
               )}
             >
               {t.label}
               {tab === t.key && (
-                <span className="absolute inset-x-4 bottom-1 h-0.5 rounded-full bg-brand" />
+                <span className="absolute inset-x-0 bottom-1 mx-auto h-0.5 w-6 rounded-full bg-brand" />
               )}
             </button>
           ))}

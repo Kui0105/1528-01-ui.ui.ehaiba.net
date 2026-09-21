@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Store, ShoppingCart, FileText, Boxes, Store as StoreIcon, Users, LineChart, Gift, Coins, ClipboardList } from "lucide-react"
+import { Store, ShoppingCart, FileText, Boxes, Store as StoreIcon, Users, LineChart, Gift, Coins, ClipboardList, ChevronDown } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
 import { dealerInfo } from "@/lib/points-mall-data"
+import { TimeFilterSheet, type TimeOption } from "./time-filter-sheet"
 
 const entryMeta: Record<string, { icon: typeof Store; color: string; href: string }> = {
   进货商城: { icon: ShoppingCart, color: "#c9302c", href: "/purchase-mall" },
@@ -24,6 +25,8 @@ const entryMeta: Record<string, { icon: typeof Store; color: string; href: strin
 export function DealerScreen() {
   const router = useRouter()
   const [toast, setToast] = useState("")
+  const [time, setTime] = useState<TimeOption>("全部")
+  const [timeOpen, setTimeOpen] = useState(false)
 
   function showToast(msg: string) {
     setToast(msg)
@@ -60,7 +63,17 @@ export function DealerScreen() {
 
           {/* 经营数据 */}
           <section className="mt-3 rounded-2xl bg-white p-4 card-soft">
-            <span className="text-[14px] font-bold text-ink">经营数据</span>
+            <div className="flex items-center justify-between">
+              <span className="text-[14px] font-bold text-ink">经营数据</span>
+              <button
+                type="button"
+                onClick={() => setTimeOpen(true)}
+                className="flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-[12px] text-ink active:scale-95"
+              >
+                {time}
+                <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+              </button>
+            </div>
             <div className="mt-4 grid grid-cols-4">
               {dealerInfo.stats.map((s, i) => (
                 <div
@@ -101,6 +114,8 @@ export function DealerScreen() {
             </div>
           </section>
         </main>
+
+        <TimeFilterSheet open={timeOpen} value={time} onSelect={setTime} onClose={() => setTimeOpen(false)} />
       </div>
 
       <Toast message={toast} />

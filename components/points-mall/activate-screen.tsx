@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { Search, ChevronRight, ScanLine, Store as StoreIcon, X, CheckCircle2 } from "lucide-react"
+import { Search, ChevronRight, Store as StoreIcon, X, CheckCircle2 } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { stores } from "@/lib/dealer-data"
@@ -35,7 +35,7 @@ export function ActivateScreen() {
           </div>
         </div>
 
-        <main className="no-scrollbar flex-1 overflow-y-auto p-3 pb-24">
+        <main className="no-scrollbar flex-1 overflow-y-auto p-3 pb-4">
           <div className="flex flex-col gap-3">
             {list.map((s) => (
               <button
@@ -59,21 +59,6 @@ export function ActivateScreen() {
             ))}
           </div>
         </main>
-
-        {/* 底部扫码按钮 */}
-        <div className="absolute inset-x-0 bottom-0 z-20 px-4 pb-4">
-          <button
-            type="button"
-            onClick={() => {
-              setActiveStore(stores[0].name)
-              setScanning(true)
-            }}
-            className="brand-gradient glow-brand flex w-full items-center justify-center gap-2 rounded-full py-3 text-base font-bold text-white active:scale-[0.98]"
-          >
-            <ScanLine className="h-5 w-5" />
-            扫码激活
-          </button>
-        </div>
 
         {/* 扫码弹层 */}
         {scanning && (

@@ -39,8 +39,8 @@ export function SettingsScreen() {
           </section>
 
           <section className="mt-3 overflow-hidden rounded-2xl bg-white card-soft">
-            <Row label="收货地址" onClick={() => router.push("/address")} />
-            <Row label="清除缓存" onClick={() => showToast("已清除缓存")} border />
+            <Row label="用户协议" onClick={() => router.push("/agreement")} />
+            <Row label="隐私政策" onClick={() => router.push("/privacy")} border />
           </section>
         </main>
 

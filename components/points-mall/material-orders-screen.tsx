@@ -1,7 +1,8 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { Search, Gift } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Search, Gift, ChevronRight } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
@@ -17,6 +18,7 @@ const statusColor: Record<string, string> = {
 }
 
 export function MaterialOrdersScreen() {
+  const router = useRouter()
   const [tab, setTab] = useState<string>(materialOrderTabs[0])
   const [keyword, setKeyword] = useState("")
   const [toast, setToast] = useState("")
@@ -100,10 +102,22 @@ export function MaterialOrdersScreen() {
                   </span>
                   <span className="text-[15px] font-black text-brand">{o.total.toLocaleString()} 积分</span>
                 </div>
-                <div className="mt-3 flex items-center justify-end gap-3">
+                <div className="mt-3 flex items-center justify-between gap-3">
                   <button
                     type="button"
-                    onClick={() => showToast(`${o.actionLabel}敬请期待`)}
+                    onClick={() => router.push(`/material-order-detail?id=${o.id}`)}
+                    className="flex items-center text-[13px] text-muted-foreground active:opacity-70"
+                  >
+                    查看详情
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      o.actionLabel === "查看物流"
+                        ? router.push("/logistics")
+                        : showToast(`${o.actionLabel}成功`)
+                    }
                     className={
                       o.canAction
                         ? "brand-gradient rounded-full px-5 py-1.5 text-[13px] font-semibold text-white active:scale-95"

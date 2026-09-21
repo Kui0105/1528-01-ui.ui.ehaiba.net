@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Search, Package, ChevronRight } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
@@ -16,6 +17,7 @@ const statusColor: Record<string, string> = {
 }
 
 export function PurchaseOrdersScreen() {
+  const router = useRouter()
   const [tab, setTab] = useState<string>(purchaseOrderTabs[0])
   const [keyword, setKeyword] = useState("")
   const [toast, setToast] = useState("")
@@ -101,7 +103,7 @@ export function PurchaseOrdersScreen() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => showToast("进货单详情敬请期待")}
+                  onClick={() => router.push(`/purchase-order-detail?id=${o.id}`)}
                   className="mt-2 flex w-full items-center justify-end text-[13px] text-muted-foreground active:opacity-70"
                 >
                   查看详情

@@ -161,6 +161,20 @@ export const stores: StoreItem[] = [
   { id: "s5", name: "雨花德思勤店", status: "停用", address: "长沙市雨花区德思勤广场 B 座", owner: "刘洋", phone: "135****1122", activated: 178 },
 ]
 
+export const storeStock = [
+  { name: "迈极炫冰爽槟榔 20元装", stock: 320, unit: "条" },
+  { name: "迈极炫冰爽槟榔 50元装", stock: 186, unit: "条" },
+  { name: "迈极炫至尊槟榔 100元装", stock: 92, unit: "条" },
+  { name: "迈极炫经典槟榔礼盒", stock: 48, unit: "盒" },
+]
+
+export const storeSalesOrders = [
+  { no: "XS20260903008", product: "迈极炫冰爽槟榔 20元装", qty: 12, date: "2026-09-03" },
+  { no: "XS20260902015", product: "迈极炫至尊槟榔 100元装", qty: 3, date: "2026-09-02" },
+  { no: "XS20260901022", product: "迈极炫冰爽槟榔 50元装", qty: 8, date: "2026-09-01" },
+  { no: "XS20260831006", product: "迈极炫经典槟榔礼盒", qty: 5, date: "2026-08-31" },
+]
+
 // —— 产品库存（原型 product-stock.html）——
 export const stockTabs = ["全部", "20元系列", "50元系列", "100元系列"] as const
 

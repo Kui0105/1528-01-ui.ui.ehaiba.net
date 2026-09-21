@@ -1,16 +1,19 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Plus, User } from "lucide-react"
+import { Search, Plus, User, X } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
 import { businessTabs, salesmen } from "@/lib/dealer-data"
 
+type FormSheet = { kind: "edit"; name: string; phone: string } | { kind: "add" } | null
+
 export function BusinessManageScreen() {
   const [tab, setTab] = useState<string>(businessTabs[0])
   const [keyword, setKeyword] = useState("")
   const [confirm, setConfirm] = useState<string | null>(null)
+  const [form, setForm] = useState<FormSheet>(null)
   const [toast, setToast] = useState("")
 
   function showToast(msg: string) {
@@ -82,7 +85,7 @@ export function BusinessManageScreen() {
                   <div className="flex flex-col gap-2">
                     <button
                       type="button"
-                      onClick={() => showToast("编辑业务员敬请期待")}
+                      onClick={() => setForm({ kind: "edit", name: s.name, phone: s.phone })}
                       className="rounded-full border border-black/10 px-3 py-1 text-[12px] text-ink active:scale-95"
                     >
                       编辑
@@ -109,12 +112,45 @@ export function BusinessManageScreen() {
         {/* 新增按钮 */}
         <button
           type="button"
-          onClick={() => showToast("新增业务员敬请期待")}
+          onClick={() => setForm({ kind: "add" })}
           className="brand-gradient glow-brand absolute bottom-5 right-5 z-20 flex h-14 w-14 items-center justify-center rounded-full text-white active:scale-90"
           aria-label="新增业务员"
         >
           <Plus className="h-7 w-7" />
         </button>
+
+        {/* 编辑 / 新增 业务员表单 */}
+        {form && (
+          <div className="absolute inset-0 z-40 flex flex-col justify-end bg-black/40" onClick={() => setForm(null)}>
+            <div className="rounded-t-2xl bg-white" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-3">
+                <span className="text-[15px] font-semibold text-ink">
+                  {form.kind === "edit" ? "编辑业务员" : "新增业务员"}
+                </span>
+                <button type="button" onClick={() => setForm(null)} aria-label="关闭">
+                  <X className="h-5 w-5 text-muted-foreground" />
+                </button>
+              </div>
+              <div className="flex flex-col gap-3 p-4">
+                <FormField label="姓名" defaultValue={form.kind === "edit" ? form.name : ""} placeholder="请输入姓名" />
+                <FormField label="手机号" defaultValue={form.kind === "edit" ? form.phone : ""} placeholder="请输入手机号" />
+                <FormField label="管理门店数" placeholder="请输入门店数量" />
+              </div>
+              <div className="border-t border-black/[0.06] p-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setForm(null)
+                    showToast(form.kind === "edit" ? "业务员已更新" : "业务员已新增")
+                  }}
+                  className="brand-gradient glow-brand w-full rounded-full py-3 text-[15px] font-bold text-white active:scale-[0.98]"
+                >
+                  保存
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* 删除确认 */}
         {confirm && (
@@ -157,5 +193,18 @@ function Metric({ label, value, border }: { label: string; value: number; border
       <span className="text-lg font-black text-brand tabular-nums">{value}</span>
       <span className="mt-0.5 text-[11px] text-muted-foreground">{label}</span>
     </div>
+  )
+}
+
+function FormField({ label, defaultValue, placeholder }: { label: string; defaultValue?: string; placeholder?: string }) {
+  return (
+    <label className="flex flex-col gap-1.5">
+      <span className="text-[13px] text-muted-foreground">{label}</span>
+      <input
+        defaultValue={defaultValue}
+        placeholder={placeholder}
+        className="rounded-xl bg-muted px-3.5 py-2.5 text-[14px] text-ink outline-none placeholder:text-muted-foreground/60"
+      />
+    </label>
   )
 }
