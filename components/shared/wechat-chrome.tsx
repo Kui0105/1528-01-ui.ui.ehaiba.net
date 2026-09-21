@@ -54,8 +54,8 @@ export function Capsule({ dark = false }: { dark?: boolean }) {
       </span>
       <span className={`h-4 w-px ${dark ? "bg-white/40" : "bg-black/15"}`} />
       <span className="flex items-center justify-center px-3">
-        <span className={`h-3.5 w-3.5 rounded-full border ${dark ? "border-white" : "border-ink"}`}>
-          <span className={`m-[3px] block h-1 w-1 rounded-full ${dark ? "bg-white" : "bg-ink"}`} />
+        <span className={`flex h-3.5 w-3.5 items-center justify-center rounded-full border ${dark ? "border-white" : "border-ink"}`}>
+          <span className={`h-1 w-1 rounded-full ${dark ? "bg-white" : "bg-ink"}`} />
         </span>
       </span>
     </div>
