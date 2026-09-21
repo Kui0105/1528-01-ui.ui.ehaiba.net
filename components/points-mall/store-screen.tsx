@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Search, Plus, Boxes, FileText, Pencil, Trash2, Store as StoreIcon, UserRound } from "lucide-react"
+import { Search, Plus, Boxes, FileText, Pencil, Trash2, Store as StoreIcon } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
@@ -73,8 +73,7 @@ export function StoreScreen() {
                       {s.owner} · {s.phone}
                     </span>
                     {isDealer && (
-                      <span className="mt-1 flex items-center gap-1 text-[12px] text-muted-foreground">
-                        <UserRound className="h-3.5 w-3.5 text-brand" strokeWidth={2} />
+                      <span className="mt-1 text-[12px] text-muted-foreground">
                         业务员：<span className="text-ink">{s.salesman}</span>
                       </span>
                     )}

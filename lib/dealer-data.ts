@@ -168,7 +168,7 @@ export const salesmanOptions = ["刘伟", "陈静", "张三", "李四", "王五"
 export const storeStock = [
   { name: "迈极炫冰爽槟榔 20元装", stock: 320, unit: "条" },
   { name: "迈极炫冰爽槟榔 50元装", stock: 186, unit: "条" },
-  { name: "迈极炫至尊槟榔 100元装", stock: 92, unit: "条" },
+  { name: "迈极炫至��槟榔 100元装", stock: 92, unit: "条" },
   { name: "迈极炫经典槟榔礼盒", stock: 48, unit: "盒" },
 ]
 
@@ -226,15 +226,16 @@ export type StockItem = {
   series: string
   spec: string
   stock: number
+  image: string
 }
 
 export const stockItems: StockItem[] = [
-  { id: "k1", name: "迈极炫冰爽槟榔 20元装", series: "20元系列", spec: "12包/条", stock: 1860 },
-  { id: "k2", name: "迈极炫冰爽槟榔 50元装", series: "50元系列", spec: "15包/条", stock: 980 },
-  { id: "k3", name: "迈极炫至尊槟榔 100元装", series: "100元系列", spec: "20包/条", stock: 420 },
-  { id: "k4", name: "迈极炫经典槟榔礼盒", series: "50元系列", spec: "礼盒/装", stock: 520 },
-  { id: "k5", name: "迈极炫醒神槟榔", series: "20元系列", spec: "3包装", stock: 240 },
-  { id: "k6", name: "迈极炫定制礼品袋", series: "100元系列", spec: "100个/箱", stock: 160 },
+  { id: "k1", name: "迈极炫冰爽槟榔 20元装", series: "20元系列", spec: "12包/条", stock: 1860, image: "/products/box-20.png" },
+  { id: "k2", name: "迈极炫冰爽槟榔 50元装", series: "50元系列", spec: "15包/条", stock: 980, image: "/products/box-50.png" },
+  { id: "k3", name: "迈极炫至尊槟榔 100元装", series: "100元系列", spec: "20包/条", stock: 420, image: "/products/box-100.png" },
+  { id: "k4", name: "迈极炫经典槟榔礼盒", series: "50元系列", spec: "礼盒/装", stock: 520, image: "/products/gift-box.png" },
+  { id: "k5", name: "迈极炫醒神槟榔", series: "20元系列", spec: "3包装", stock: 240, image: "/products/box-20.png" },
+  { id: "k6", name: "迈极炫定制礼品袋", series: "100元系列", spec: "100个/箱", stock: 160, image: "/products/canvas-bag.png" },
 ]
 
 // —— 业务管理（原型 business-manage.html）——

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Search, Minus, Plus, Gift } from "lucide-react"
+import { Search, Minus, Plus } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
@@ -78,9 +78,11 @@ export function MaterialMallScreen() {
           <div className="flex flex-col gap-2.5">
             {list.map((p) => (
               <div key={p.id} className="flex items-center gap-3 rounded-2xl bg-white p-3 card-soft">
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand/10">
-                  <Gift className="h-7 w-7 text-brand" strokeWidth={1.6} />
-                </span>
+                <img
+                  src={p.image || "/placeholder.svg"}
+                  alt={p.name}
+                  className="h-14 w-14 shrink-0 rounded-xl bg-brand/5 object-contain"
+                />
                 <div className="flex flex-1 flex-col">
                   <span className="text-[14px] font-semibold text-ink">{p.name}</span>
                   <span className="mt-1 flex items-baseline gap-1">

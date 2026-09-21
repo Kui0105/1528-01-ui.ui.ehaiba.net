@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
-import { Package, Gift, MapPin, CheckCircle2, Circle } from "lucide-react"
+import { MapPin, CheckCircle2, Circle } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { purchaseOrders, materialOrders } from "@/lib/dealer-data"
@@ -15,7 +15,6 @@ export function PurchaseOrderDetailScreen({ kind }: { kind: "purchase" | "materi
   const order = useMemo(() => source.find((o) => o.id === id) ?? source[0], [source, id])
 
   const isMaterial = kind === "material"
-  const Icon = isMaterial ? Gift : Package
   const title = isMaterial ? "物料订单详情" : "进货订单详情"
   const unitLabel = isMaterial
     ? `${(order as (typeof materialOrders)[number]).points.toLocaleString()} 积分`
@@ -66,9 +65,11 @@ export function PurchaseOrderDetailScreen({ kind }: { kind: "purchase" | "materi
           {/* 商品信息 */}
           <section className="mt-3 rounded-2xl bg-white p-4 card-soft">
             <div className="flex items-center gap-3">
-              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand/10">
-                <Icon className="h-7 w-7 text-brand" strokeWidth={1.6} />
-              </span>
+              <img
+                src={order.image || "/placeholder.svg"}
+                alt={order.name}
+                className="h-14 w-14 shrink-0 rounded-xl bg-brand/5 object-contain"
+              />
               <div className="flex flex-1 flex-col">
                 <span className="text-[14px] font-semibold text-ink">{order.name}</span>
                 <span className="mt-1 text-[12px] text-muted-foreground">

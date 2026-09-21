@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Search, Gift } from "lucide-react"
+import { Search } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
@@ -106,9 +106,11 @@ export function MaterialOrdersScreen() {
                   <span className={`rounded px-1.5 py-0.5 text-[11px] font-medium ${statusColor[o.status]}`}>{o.status}</span>
                 </div>
                 <div className="mt-3 flex items-center gap-3">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand/10">
-                    <Gift className="h-6 w-6 text-brand" strokeWidth={1.6} />
-                  </span>
+                  <img
+                    src={o.image || "/placeholder.svg"}
+                    alt={o.name}
+                    className="h-12 w-12 shrink-0 rounded-xl bg-brand/5 object-contain"
+                  />
                   <div className="flex flex-1 flex-col">
                     <span className="text-[14px] text-ink">{o.name}</span>
                     <span className="mt-0.5 text-[12px] text-muted-foreground">
