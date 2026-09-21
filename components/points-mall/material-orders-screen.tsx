@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Search } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
@@ -42,10 +42,32 @@ export function MaterialOrdersScreen() {
   const [tab, setTab] = useState<string>(materialOrderTabs[0])
   const [keyword, setKeyword] = useState("")
   const [toast, setToast] = useState("")
+  const [confirm, setConfirm] = useState<{ title: string; desc: string; done: string } | null>(null)
+  const confirmRef = useRef<(() => void) | null>(null)
 
   function showToast(msg: string) {
     setToast(msg)
     window.setTimeout(() => setToast(""), 1600)
+  }
+
+  const confirmCopy: Record<string, { title: string; desc: string; done: string }> = {
+    pay: { title: "确认支付该订单？", desc: "确认后将立即扣除对应积分完成支付。", done: "支付成功" },
+    cancel: { title: "确认取消该订单？", desc: "取消后订单将关闭，且无法恢复。", done: "订单已取消" },
+    receive: { title: "确认已收到货？", desc: "确认收货后订单将标记为已完成。", done: "已确认收货" },
+  }
+
+  function handleAction(kind: string, id: string) {
+    if (kind === "detail") {
+      router.push(`/material-order-detail?id=${id}`)
+      return
+    }
+    const copy = confirmCopy[kind]
+    if (!copy) return
+    confirmRef.current = () => {
+      setConfirm(null)
+      showToast(copy.done)
+    }
+    setConfirm(copy)
   }
 
   const list = useMemo(() => {
@@ -132,17 +154,7 @@ export function MaterialOrdersScreen() {
                     <button
                       key={a.label}
                       type="button"
-                      onClick={() => {
-                        if (a.kind === "detail") {
-                          router.push(`/material-order-detail?id=${o.id}`)
-                        } else if (a.kind === "pay") {
-                          showToast("支付成功")
-                        } else if (a.kind === "cancel") {
-                          showToast("订单已取消")
-                        } else if (a.kind === "receive") {
-                          showToast("已确认收货")
-                        }
-                      }}
+                      onClick={() => handleAction(a.kind, o.id)}
                       className={
                         a.primary
                           ? "brand-gradient rounded-full px-5 py-1.5 text-[13px] font-semibold text-white active:scale-95"
@@ -158,6 +170,35 @@ export function MaterialOrdersScreen() {
           </div>
         </main>
       </div>
+
+      {confirm && (
+        <div className="absolute inset-0 z-50 flex items-end justify-center" onClick={() => setConfirm(null)}>
+          <div className="absolute inset-0 bg-black/40" />
+          <div
+            className="relative w-full rounded-t-3xl bg-white px-5 pb-7 pt-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-center text-[16px] font-semibold text-ink">{confirm.title}</p>
+            <p className="mt-2 text-center text-[13px] leading-relaxed text-muted-foreground">{confirm.desc}</p>
+            <div className="mt-6 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setConfirm(null)}
+                className="flex-1 rounded-full border border-black/10 py-2.5 text-[14px] text-ink active:scale-95"
+              >
+                取消
+              </button>
+              <button
+                type="button"
+                onClick={() => confirmRef.current?.()}
+                className="brand-gradient flex-1 rounded-full py-2.5 text-[14px] font-semibold text-white active:scale-95"
+              >
+                确认
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Toast message={toast} />
     </PhoneFrame>
