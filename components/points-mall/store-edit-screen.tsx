@@ -22,8 +22,10 @@ export function StoreEditScreen() {
   const [address, setAddress] = useState(store?.address ?? "")
   const [status, setStatus] = useState<"启用" | "停用">(store?.status ?? "启用")
   const [toast, setToast] = useState("")
+  const [confirmOpen, setConfirmOpen] = useState(false)
 
   function save() {
+    setConfirmOpen(false)
     setToast(isEdit ? "门店已更新" : "门店已新增")
     window.setTimeout(() => router.back(), 900)
   }
@@ -111,12 +113,47 @@ export function StoreEditScreen() {
         <div className="absolute inset-x-0 bottom-0 z-20 border-t border-black/[0.06] bg-white/80 p-4 backdrop-blur-xl">
           <button
             type="button"
-            onClick={save}
+            onClick={() => setConfirmOpen(true)}
             className="brand-gradient glow-brand w-full rounded-full py-3 text-[15px] font-bold text-white active:scale-[0.98]"
           >
             保存
           </button>
         </div>
+
+        {confirmOpen && (
+          <div className="absolute inset-0 z-30 flex items-end justify-center">
+            <button
+              type="button"
+              aria-label="关闭"
+              onClick={() => setConfirmOpen(false)}
+              className="absolute inset-0 bg-black/40"
+            />
+            <div className="relative w-full rounded-t-3xl bg-white p-5 pb-7">
+              <h3 className="text-center text-[16px] font-bold text-ink">
+                {isEdit ? "确认保存修改？" : "确认新增门店？"}
+              </h3>
+              <p className="mt-2 text-center text-[13px] text-muted-foreground">
+                {isEdit ? "保存后将更新该门店信息" : "保存后将创建新门店"}
+              </p>
+              <div className="mt-5 flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setConfirmOpen(false)}
+                  className="flex-1 rounded-full border border-black/10 py-3 text-[15px] font-medium text-muted-foreground active:scale-[0.98]"
+                >
+                  取消
+                </button>
+                <button
+                  type="button"
+                  onClick={save}
+                  className="brand-gradient glow-brand flex-1 rounded-full py-3 text-[15px] font-bold text-white active:scale-[0.98]"
+                >
+                  确认
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <Toast message={toast} />
