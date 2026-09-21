@@ -54,12 +54,12 @@ export function LotteryScreen() {
         </div>
 
         {/* 导航栏 */}
-        <div className="relative z-10 flex items-center justify-between px-4 pb-3 pt-2">
+        <div className="relative z-10 flex h-11 items-center px-4">
           <button
             type="button"
             aria-label="返回积分商城"
             onClick={() => router.push("/")}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 backdrop-blur"
+            className="absolute left-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/15 backdrop-blur"
           >
             <svg
               width="20"
@@ -76,8 +76,10 @@ export function LotteryScreen() {
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
           </button>
-          <span className="text-[17px] font-semibold drop-shadow">迈极炫</span>
-          <Capsule dark />
+          <span className="mx-auto text-[17px] font-semibold drop-shadow">迈极炫</span>
+          <div className="absolute right-4">
+            <Capsule dark />
+          </div>
         </div>
 
         {/* 海报主体 */}

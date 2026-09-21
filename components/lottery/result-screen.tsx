@@ -45,9 +45,9 @@ export function ResultScreen() {
 
   return (
     <PhoneFrame>
-      <div className="flex h-full flex-col bg-muted">
+      <div className="brand-gradient flex h-full flex-col text-white">
         {/* 品牌红头部 */}
-        <div className="brand-gradient shrink-0 text-white">
+        <div className="shrink-0 text-white">
           <StatusBar dark />
           <div className="relative flex h-11 items-center justify-center">
             <button

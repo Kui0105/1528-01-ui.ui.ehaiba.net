@@ -148,19 +148,21 @@ export function SelectScreen() {
         </div>
 
         {/* 导航栏 */}
-        <div className="relative z-10 flex items-center justify-between px-4 pb-2 pt-2">
+        <div className="relative z-10 flex h-11 items-center px-4">
           <button
             type="button"
             aria-label="返回"
             onClick={() => (torn ? resetToSelect() : router.push("/lottery"))}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 transition active:scale-90"
+            className="absolute left-4 flex h-9 w-9 items-center justify-center rounded-full text-white/90 transition active:scale-90"
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <polyline points="15 18 9 12 15 6" />
             </svg>
           </button>
-          <span className="text-[17px] font-semibold">抽奖</span>
-          <Capsule dark />
+          <span className="mx-auto text-[17px] font-semibold">抽奖</span>
+          <div className="absolute right-4">
+            <Capsule dark />
+          </div>
         </div>
 
         {/* 右侧金色竖排标签 */}
@@ -188,7 +190,7 @@ export function SelectScreen() {
             className="bg-[linear-gradient(180deg,#fff6dd_0%,#ffe4a3_42%,#f2b957_78%,#d98a2b_100%)] bg-clip-text text-[42px] font-black leading-none tracking-wide text-transparent drop-shadow-[0_2px_6px_rgba(90,20,10,0.5)]"
             style={{ WebkitTextStroke: "0.5px rgba(120,50,10,0.35)" }}
           >
-            迈极��
+            迈极炫
           </div>
           <div className="mx-auto mt-3 flex items-center justify-center gap-2">
             <span className="h-px w-8 bg-gradient-to-r from-transparent to-[#f4c66a]/70" aria-hidden />
