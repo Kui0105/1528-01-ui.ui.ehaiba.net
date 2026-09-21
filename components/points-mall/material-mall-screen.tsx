@@ -1,18 +1,18 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { Search, Minus, Plus, Gift, X, CheckCircle2 } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Search, Minus, Plus, Gift } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
 import { materialTabs, materialProducts } from "@/lib/dealer-data"
 
 export function MaterialMallScreen() {
+  const router = useRouter()
   const [tab, setTab] = useState<string>(materialTabs[0])
   const [keyword, setKeyword] = useState("")
   const [qty, setQty] = useState<Record<string, number>>({})
-  const [confirmOpen, setConfirmOpen] = useState(false)
-  const [successOpen, setSuccessOpen] = useState(false)
   const [toast, setToast] = useState("")
 
   function showToast(msg: string) {
@@ -125,77 +125,26 @@ export function MaterialMallScreen() {
           </div>
           <button
             type="button"
-            onClick={() => (totalCount ? setConfirmOpen(true) : showToast("请选择物料"))}
+            onClick={() => {
+              if (!totalCount) {
+                showToast("请选择物料")
+                return
+              }
+              const cart = materialProducts
+                .filter((p) => (qty[p.id] ?? 0) > 0)
+                .map((p) => ({ id: p.id, qty: qty[p.id] }))
+              try {
+                window.sessionStorage.setItem("materialCart", JSON.stringify(cart))
+              } catch {
+                // ignore
+              }
+              router.push("/material-order-create")
+            }}
             className="brand-gradient glow-brand rounded-full px-8 py-2.5 text-[15px] font-bold text-white active:scale-95"
           >
             立即兑换
           </button>
         </div>
-
-        {/* 兑换确认弹层 */}
-        {confirmOpen && (
-          <div className="absolute inset-0 z-40 flex flex-col justify-end bg-black/40" onClick={() => setConfirmOpen(false)}>
-            <div className="rounded-t-2xl bg-white" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-3">
-                <span className="text-[15px] font-semibold text-ink">确认兑换</span>
-                <button type="button" onClick={() => setConfirmOpen(false)} aria-label="关闭">
-                  <X className="h-5 w-5 text-muted-foreground" />
-                </button>
-              </div>
-              <div className="no-scrollbar max-h-[40vh] overflow-y-auto p-4">
-                <div className="flex flex-col gap-2.5">
-                  {materialProducts
-                    .filter((p) => (qty[p.id] ?? 0) > 0)
-                    .map((p) => (
-                      <div key={p.id} className="flex items-center justify-between rounded-xl bg-muted px-3.5 py-2.5">
-                        <span className="text-[13px] text-ink">
-                          {p.name} <span className="text-muted-foreground">×{qty[p.id]} {p.unit}</span>
-                        </span>
-                        <span className="text-[13px] font-semibold text-brand">
-                          {((qty[p.id] ?? 0) * p.points).toLocaleString()} 积分
-                        </span>
-                      </div>
-                    ))}
-                </div>
-              </div>
-              <div className="border-t border-black/[0.06] p-4">
-                <div className="mb-3 flex items-center justify-between">
-                  <span className="text-[13px] text-muted-foreground">合计消耗</span>
-                  <span className="text-[17px] font-black text-brand">{totalPoints.toLocaleString()} 积分</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setConfirmOpen(false)
-                    setSuccessOpen(true)
-                    setQty({})
-                  }}
-                  className="brand-gradient glow-brand w-full rounded-full py-3 text-[15px] font-bold text-white active:scale-[0.98]"
-                >
-                  确认兑换
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* 兑换成功 */}
-        {successOpen && (
-          <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/40 px-8">
-            <div className="w-full rounded-2xl bg-white px-6 py-7 text-center">
-              <CheckCircle2 className="mx-auto h-14 w-14 text-[#3fae6f]" strokeWidth={1.6} />
-              <p className="mt-3 text-[17px] font-bold text-ink">兑换成功</p>
-              <p className="mt-1.5 text-[13px] text-muted-foreground">物料订单已提交，可在「物料订单」查看进度</p>
-              <button
-                type="button"
-                onClick={() => setSuccessOpen(false)}
-                className="brand-gradient mt-5 w-full rounded-full py-2.5 text-[15px] font-semibold text-white active:scale-95"
-              >
-                我知道了
-              </button>
-            </div>
-          </div>
-        )}
       </div>
 
       <Toast message={toast} />
