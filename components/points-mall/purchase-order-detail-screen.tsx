@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 import { useSearchParams } from "next/navigation"
-import { MapPin, CheckCircle2, Circle } from "lucide-react"
+import { MapPin } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { purchaseOrders, materialOrders } from "@/lib/dealer-data"
@@ -20,11 +20,6 @@ export function PurchaseOrderDetailScreen({ kind }: { kind: "purchase" | "materi
     ? `${(order as (typeof materialOrders)[number]).points.toLocaleString()} 积分`
     : `¥${(order as (typeof purchaseOrders)[number]).price}`
   const totalLabel = isMaterial ? `${order.total.toLocaleString()} 积分` : `¥${order.total.toLocaleString()}`
-
-  const steps = isMaterial
-    ? ["提交订单", "商家发货", "确认收货", "交易完成"]
-    : ["提交进货单", "经销商审核", "产品入库", "完成"]
-  const activeStep = statusToStep(order.status, isMaterial)
 
   return (
     <PhoneFrame>
@@ -93,28 +88,6 @@ export function PurchaseOrderDetailScreen({ kind }: { kind: "purchase" | "materi
               <Row label="订单状态" value={order.status} />
             </dl>
           </section>
-
-          {/* 进度（仅物料订单） */}
-          {isMaterial && (
-            <section className="mt-3 rounded-2xl bg-white p-4 card-soft">
-              <span className="text-[14px] font-bold text-ink">订单进度</span>
-              <ol className="mt-4 flex flex-col gap-4">
-                {steps.map((s, i) => {
-                  const done = i <= activeStep
-                  return (
-                    <li key={s} className="flex items-center gap-3">
-                      {done ? (
-                        <CheckCircle2 className="h-5 w-5 text-brand" />
-                      ) : (
-                        <Circle className="h-5 w-5 text-muted-foreground/40" />
-                      )}
-                      <span className={`text-[13px] ${done ? "font-medium text-ink" : "text-muted-foreground"}`}>{s}</span>
-                    </li>
-                  )
-                })}
-              </ol>
-            </section>
-          )}
         </main>
       </div>
     </PhoneFrame>
@@ -129,15 +102,6 @@ function statusHint(status: string) {
     已取消: "进货单已取消",
   }
   return map[status] ?? "进货单已提交，等待处理"
-}
-
-function statusToStep(status: string, isMaterial: boolean) {
-  if (isMaterial) {
-    const map: Record<string, number> = { 待付款: 0, 待发货: 0, 待收货: 1, 已完成: 3, 已关闭: 0 }
-    return map[status] ?? 0
-  }
-  const map: Record<string, number> = { 待入库: 1, 已入库: 3, 已驳回: 0, 已取消: 0 }
-  return map[status] ?? 0
 }
 
 function Row({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
