@@ -78,17 +78,18 @@ export type LotteryRecord = {
   title: string
   orderId: string
   time: string
+  image: string
 }
 
 export const lotteryRecords: LotteryRecord[] = [
-  { id: "1", type: "none", title: "谢谢参与，下次好运", orderId: "AJM8X7K2P9", time: "2026-08-27 10:23:45" },
-  { id: "2", type: "points", title: "+50 积分", orderId: "BJM3M9N4Q1", time: "2026-08-26 18:40:22" },
-  { id: "3", type: "prize", title: "加5元兑换槟榔一包", orderId: "CJM5L2R8T6", time: "2026-08-25 14:12:33" },
-  { id: "4", type: "points", title: "+20 积分", orderId: "DJM9P1W5X2", time: "2026-08-24 09:33:17" },
-  { id: "5", type: "none", title: "谢谢参与，下次好运", orderId: "EJM2K6Y3Z8", time: "2026-08-23 16:55:01" },
-  { id: "6", type: "points", title: "+50 积分", orderId: "FJM4H7B9N5", time: "2026-08-22 11:20:38" },
-  { id: "7", type: "prize", title: "加5元兑换槟榔一包", orderId: "GJM1D3C6V9", time: "2026-08-21 20:15:52" },
-  { id: "8", type: "points", title: "+20 积分", orderId: "HJM7F2G4K8", time: "2026-08-20 08:47:29" },
+  { id: "1", type: "none", title: "谢谢参与，下次好运", orderId: "AJM8X7K2P9", time: "2026-08-27 10:23:45", image: "/products/gift-box.png" },
+  { id: "2", type: "points", title: "+50 积分", orderId: "BJM3M9N4Q1", time: "2026-08-26 18:40:22", image: "/products/box-50.png" },
+  { id: "3", type: "prize", title: "加5元兑换槟榔一包", orderId: "CJM5L2R8T6", time: "2026-08-25 14:12:33", image: "/products/box-20.png" },
+  { id: "4", type: "points", title: "+20 积分", orderId: "DJM9P1W5X2", time: "2026-08-24 09:33:17", image: "/products/box-20.png" },
+  { id: "5", type: "none", title: "谢谢参与，下次好运", orderId: "EJM2K6Y3Z8", time: "2026-08-23 16:55:01", image: "/products/gift-box.png" },
+  { id: "6", type: "points", title: "+50 积分", orderId: "FJM4H7B9N5", time: "2026-08-22 11:20:38", image: "/products/box-50.png" },
+  { id: "7", type: "prize", title: "加5元兑换槟榔一包", orderId: "GJM1D3C6V9", time: "2026-08-21 20:15:52", image: "/products/box-20.png" },
+  { id: "8", type: "points", title: "+20 积分", orderId: "HJM7F2G4K8", time: "2026-08-20 08:47:29", image: "/products/box-20.png" },
 ]
 
 // 消息中心（原型 message.html：订单消息 / 预警消息）

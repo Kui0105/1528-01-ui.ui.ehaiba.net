@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { ChevronLeft, Gift, Coins } from "lucide-react"
+import { ChevronLeft } from "lucide-react"
 import { PhoneFrame } from "@/components/points-mall/phone-frame"
 import { StatusBar, Capsule } from "@/components/shared/wechat-chrome"
 import { lotteryRecords } from "@/lib/points-mall-data"
@@ -35,12 +35,12 @@ export function RecordsScreen() {
           <ul className="space-y-3">
             {lotteryRecords.map((r) => (
               <li key={r.id} className="flex items-center gap-3 rounded-2xl bg-white p-3.5 card-soft">
-                <div
-                  className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${
-                    r.type === "points" ? "bg-[#d4a843]/15 text-[#c8901f]" : "bg-brand/10 text-brand"
-                  }`}
-                >
-                  {r.type === "points" ? <Coins className="h-7 w-7" /> : <Gift className="h-7 w-7" />}
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-muted">
+                  <img
+                    src={r.image || "/placeholder.svg"}
+                    alt={r.title}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div className="flex flex-1 flex-col">
                   <span className="text-sm font-semibold text-ink">{r.title}</span>

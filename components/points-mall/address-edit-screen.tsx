@@ -1,19 +1,24 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { ChevronRight } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
+import { addresses } from "@/lib/points-mall-data"
 
 export function AddressEditScreen() {
   const router = useRouter()
-  const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
-  const [region, setRegion] = useState("")
-  const [detail, setDetail] = useState("")
-  const [isDefault, setIsDefault] = useState(false)
+  const searchParams = useSearchParams()
+  const editId = searchParams.get("id")
+  const editing = addresses.find((a) => a.id === editId)
+
+  const [name, setName] = useState(editing?.name ?? "")
+  const [phone, setPhone] = useState(editing?.phone ?? "")
+  const [region, setRegion] = useState(editing?.region ?? "")
+  const [detail, setDetail] = useState(editing?.detail ?? "")
+  const [isDefault, setIsDefault] = useState(editing?.isDefault ?? false)
   const [toast, setToast] = useState("")
 
   function save() {
@@ -32,7 +37,7 @@ export function AddressEditScreen() {
   return (
     <PhoneFrame>
       <div className="flex h-full flex-col bg-muted">
-        <MobileNavBar title="新增地址" />
+        <MobileNavBar title={editing ? "编辑地址" : "新增地址"} />
 
         <main className="no-scrollbar flex-1 overflow-y-auto p-3 pb-24">
           <section className="overflow-hidden rounded-2xl bg-white card-soft">
