@@ -1,13 +1,16 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Plus, Pencil } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
+import { Toast } from "@/components/lottery/toast"
 import { addresses } from "@/lib/points-mall-data"
 
 export function AddressScreen() {
   const router = useRouter()
+  const [toast, setToast] = useState("")
 
   return (
     <PhoneFrame>
