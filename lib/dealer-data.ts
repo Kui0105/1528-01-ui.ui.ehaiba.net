@@ -173,7 +173,45 @@ export const storeSalesOrders = [
   { no: "XS20260902015", product: "迈极炫至尊槟榔 100元装", qty: 3, date: "2026-09-02" },
   { no: "XS20260901022", product: "迈极炫冰爽槟榔 50元装", qty: 8, date: "2026-09-01" },
   { no: "XS20260831006", product: "迈极炫经典槟榔礼盒", qty: 5, date: "2026-08-31" },
-]
+  ]
+
+  // —— 门店库存明细（原型 store-stock.html）——
+  export const storeStockTabs = ["全部", "20元系列", "50元系列", "100元系列"] as const
+
+  export type StoreStockItem = {
+  id: string
+  name: string
+  series: string
+  spec: string
+  stock: number
+  unit: string
+  }
+
+  export const storeStockItems: StoreStockItem[] = [
+  { id: "ss1", name: "迈极炫槟榔 20元装", series: "20元系列", spec: "12颗/袋", stock: 18, unit: "件" },
+  { id: "ss2", name: "迈极炫槟榔 50元装", series: "50元系列", spec: "15颗/袋", stock: 8, unit: "件" },
+  { id: "ss3", name: "迈极炫槟榔 100元装", series: "100元系列", spec: "20颗/袋", stock: 5, unit: "件" },
+  { id: "ss4", name: "迈极炫定制打火机", series: "100元系列", spec: "金属/防风", stock: 20, unit: "件" },
+  { id: "ss5", name: "品牌毛巾套装", series: "50元系列", spec: "3条装", stock: 5, unit: "件" },
+  { id: "ss6", name: "迈极炫礼盒套装", series: "100元系列", spec: "100元系列专属", stock: 3, unit: "件" },
+  ]
+
+  // —— 门店变动记录（原型 store-logs.html）——
+  export type StoreChangeLog = {
+  id: string
+  title: string
+  type: "新增/激活产品" | "兑奖核销" | "产品回收"
+  date: string
+  }
+
+  export const storeChangeLogs: StoreChangeLog[] = [
+  { id: "log1", title: "迈极炫槟榔 50元装", type: "新增/激活产品", date: "2026-08-27 14:32" },
+  { id: "log2", title: "迈极炫槟榔 30元装", type: "新增/激活产品", date: "2026-08-27 11:18" },
+  { id: "log3", title: "加5元兑换50元迈极炫槟榔一包", type: "兑奖核销", date: "2026-08-26 17:05" },
+  { id: "log4", title: "迈极炫槟榔 50元装", type: "产品回收", date: "2026-08-26 09:40" },
+  { id: "log5", title: "迈极炫定制打火机", type: "新增/激活产品", date: "2026-08-25 16:22" },
+  { id: "log6", title: "100积分兑换券", type: "兑奖核销", date: "2026-08-25 10:11" },
+  ]
 
 // —— 产品库存（原型 product-stock.html）——
 export const stockTabs = ["全部", "20元系列", "50元系列", "100元系列"] as const
