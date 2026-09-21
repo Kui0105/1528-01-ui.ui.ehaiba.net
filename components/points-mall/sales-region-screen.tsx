@@ -117,7 +117,7 @@ export function SalesRegionScreen() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => router.push("/store?role=dealer")}
+                      onClick={() => router.push(`/dealer-detail?id=${d.id}`)}
                       className="rounded-full border border-brand px-4 py-1.5 text-[13px] font-semibold text-brand active:scale-95"
                     >
                       查看

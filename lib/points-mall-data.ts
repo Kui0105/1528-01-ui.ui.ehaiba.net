@@ -605,3 +605,128 @@ export const ruleSections = [
     ],
   },
 ]
+
+// 经销商详情下钻（原型 dealer-detail.html / dealer-sales.html / dealer-stores.html）
+export type DealerStat = { activation: number; moving: number; winning: number }
+
+export type DealerSalesman = {
+  id: string
+  name: string
+  status: "在职" | "离职"
+  phone: string
+  region: string
+  stores: number
+  createdAt: string
+  stat: DealerStat
+}
+
+export type DealerStore = {
+  id: string
+  name: string
+  status: "营业中" | "已停业"
+  contact: string
+  phone: string
+  salesman: string
+  address: string
+  createdAt: string
+  stockTotal: number
+  stat: DealerStat
+}
+
+export type DealerDetail = {
+  dealer: SalesDealer
+  stat: DealerStat
+  salesmen: DealerSalesman[]
+  stores: DealerStore[]
+}
+
+const SALESMAN_NAMES = ["刘伟", "陈静", "赵磊", "王芳", "李强", "周敏", "孙浩", "吴磊", "郑霞", "黄涛", "徐亮", "朱琳"]
+const STORE_SUFFIX = ["旗舰店", "综合店", "便民店", "精品店", "社区店", "中心店", "连锁店", "直营店"]
+const STREETS = ["劳动西路 188 号", "韶山中路 66 号", "五一大道 302 号", "芙蓉南路 120 号", "枫林路 45 号", "东风路 77 号"]
+
+function seededRandom(seed: number) {
+  let s = seed % 2147483647
+  if (s <= 0) s += 2147483646
+  return () => {
+    s = (s * 16807) % 2147483647
+    return (s - 1) / 2147483646
+  }
+}
+
+function hashId(id: string) {
+  let h = 0
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0
+  return Math.abs(h) || 1
+}
+
+export function findSalesDealer(id: string): SalesDealer | undefined {
+  for (const p of salesProvinces) {
+    for (const c of p.cities) {
+      const d = c.dealers.find((x) => x.id === id)
+      if (d) return d
+    }
+  }
+  return undefined
+}
+
+export function getDealerDetail(id: string): DealerDetail | undefined {
+  const dealer = findSalesDealer(id)
+  if (!dealer) return undefined
+
+  const rand = seededRandom(hashId(id))
+  const pick = <T,>(arr: T[]) => arr[Math.floor(rand() * arr.length)]
+  const between = (min: number, max: number) => min + Math.floor(rand() * (max - min + 1))
+  const districtBase = dealer.region.replace(/^.*市/, "") || "城区"
+  const districts = [districtBase, "天心区", "雨花区", "芙蓉区", "岳麓区", "开福区"]
+
+  // 门店（含库存与激活/动销/中奖），业务员数据由其名下门店汇总
+  const salesmen: DealerSalesman[] = Array.from({ length: dealer.salesmen }).map((_, i) => {
+    const name = SALESMAN_NAMES[i % SALESMAN_NAMES.length]
+    return {
+      id: `${id}-s${i + 1}`,
+      name,
+      status: i === dealer.salesmen - 1 && dealer.salesmen > 2 ? "离职" : "在职",
+      phone: `13${between(0, 9)}****${String(between(1000, 9999))}`,
+      region: districts[i % districts.length],
+      stores: 0,
+      createdAt: `2025-0${between(1, 9)}-${String(between(10, 28))} 00:00`,
+      stat: { activation: 0, moving: 0, winning: 0 },
+    }
+  })
+
+  const stores: DealerStore[] = Array.from({ length: dealer.stores }).map((_, i) => {
+    const owner = salesmen[i % salesmen.length]
+    const district = districts[i % districts.length]
+    const activation = between(18, 60)
+    const moving = between(12, activation)
+    const winning = between(2, Math.max(3, Math.floor(moving / 5)))
+    const store: DealerStore = {
+      id: `${id}-st${i + 1}`,
+      name: `${dealer.contact.replace(/经理|老板/, "")}${dealer.name.slice(2, 4)}·${district}${pick(STORE_SUFFIX)}`,
+      status: "营业中",
+      contact: `${pick(["刘", "王", "李", "陈", "张"])}店长`,
+      phone: `137****${String(between(1000, 9999))}`,
+      salesman: owner.name,
+      address: `${dealer.location}${district}${pick(STREETS)}`,
+      createdAt: `2024-1${between(0, 2)}-${String(between(10, 28))} 00:00`,
+      stockTotal: between(30, 80),
+      stat: { activation, moving, winning },
+    }
+    owner.stores += 1
+    owner.stat.activation += activation
+    owner.stat.moving += moving
+    owner.stat.winning += winning
+    return store
+  })
+
+  const stat = stores.reduce<DealerStat>(
+    (acc, s) => ({
+      activation: acc.activation + s.stat.activation,
+      moving: acc.moving + s.stat.moving,
+      winning: acc.winning + s.stat.winning,
+    }),
+    { activation: 0, moving: 0, winning: 0 },
+  )
+
+  return { dealer, stat, salesmen, stores }
+}
