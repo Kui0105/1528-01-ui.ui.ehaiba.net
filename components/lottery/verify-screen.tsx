@@ -42,10 +42,11 @@ export function VerifyScreen() {
   return (
     <PhoneFrame>
       <div className="relative flex h-full flex-col overflow-hidden bg-[#d5342b] text-white">
-        {/* 红色渐变海报背景 */}
-        <div
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#e6463b_0%,#d5342b_50%,#b62419_100%)]"
-          aria-hidden
+        {/* 海报背景 */}
+        <img
+          src="/lottery/verify-bg.png"
+          alt="迈极炫冰爽槟榔海报"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
         />
 
         {/* 状态栏 */}
@@ -67,19 +68,11 @@ export function VerifyScreen() {
           <Capsule dark />
         </div>
 
-        {/* 品牌标题 */}
-        <div className="relative z-10 mt-16 flex flex-1 flex-col items-center px-6 text-center">
-          <div
-            className="bg-[linear-gradient(180deg,#fff6dd_0%,#ffe4a3_42%,#f2b957_78%,#d98a2b_100%)] bg-clip-text text-5xl font-black leading-none tracking-wide text-transparent drop-shadow-[0_2px_6px_rgba(90,20,10,0.5)]"
-            style={{ WebkitTextStroke: "0.5px rgba(120,50,10,0.35)" }}
-          >
-            迈极炫
-          </div>
-          <p className="mt-4 text-[13px] font-medium tracking-[0.18em] text-[#ffe6b8]">扫码赢好礼 · 即刻开抽</p>
-        </div>
+        {/* 海报主体占位 */}
+        <div className="relative z-10 flex-1" aria-hidden />
 
         {/* 底部键盘面板 */}
-        <div className="relative z-10 rounded-t-3xl bg-[#eef1f5] px-4 pb-6 pt-4 text-ink">
+        <div className="relative z-20 rounded-t-3xl bg-[#eef1f5] px-4 pb-6 pt-4 text-ink">
           <p className="text-center text-[13px] text-muted-foreground">刮开内袋涂层，输入 4 位验证码</p>
 
           {/* 验证码输入框 */}
