@@ -58,19 +58,19 @@ export function PurchaseOrdersScreen() {
               搜索
             </button>
           </div>
-          <div className="no-scrollbar mt-1 flex items-center gap-1 overflow-x-auto text-[13px]">
+          <div className="mt-1 flex items-center text-[13px]">
             {purchaseOrderTabs.map((t) => (
               <button
                 key={t}
                 type="button"
                 onClick={() => setTab(t)}
                 className={cn(
-                  "relative shrink-0 px-3 py-2.5 font-medium transition-colors",
+                  "relative flex-1 px-1 py-2.5 text-center font-medium transition-colors",
                   tab === t ? "text-brand" : "text-muted-foreground",
                 )}
               >
                 {t}
-                {tab === t && <span className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-brand" />}
+                {tab === t && <span className="absolute inset-x-1/4 bottom-1 h-0.5 rounded-full bg-brand" />}
               </button>
             ))}
           </div>

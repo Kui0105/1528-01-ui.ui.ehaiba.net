@@ -83,10 +83,13 @@ export function MaterialMallScreen() {
                 </span>
                 <div className="flex flex-1 flex-col">
                   <span className="text-[14px] font-semibold text-ink">{p.name}</span>
-                  <span className="mt-1 flex items-baseline gap-2">
+                  <span className="mt-1 flex items-baseline gap-1">
                     <span className="text-[15px] font-black text-brand">{p.points.toLocaleString()} 积分</span>
+                    <span className="text-[12px] text-muted-foreground">/ {p.unit}</span>
                   </span>
-                  <span className="mt-0.5 text-[12px] text-muted-foreground">库存 {p.stock} 件</span>
+                  <span className="mt-0.5 text-[12px] text-muted-foreground">
+                    库存 {p.stock} {p.unit}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -125,7 +128,7 @@ export function MaterialMallScreen() {
             onClick={() => (totalCount ? setConfirmOpen(true) : showToast("请选择物料"))}
             className="brand-gradient glow-brand rounded-full px-8 py-2.5 text-[15px] font-bold text-white active:scale-95"
           >
-            兑换物料
+            立即兑换
           </button>
         </div>
 
@@ -146,7 +149,7 @@ export function MaterialMallScreen() {
                     .map((p) => (
                       <div key={p.id} className="flex items-center justify-between rounded-xl bg-muted px-3.5 py-2.5">
                         <span className="text-[13px] text-ink">
-                          {p.name} <span className="text-muted-foreground">×{qty[p.id]}</span>
+                          {p.name} <span className="text-muted-foreground">×{qty[p.id]} {p.unit}</span>
                         </span>
                         <span className="text-[13px] font-semibold text-brand">
                           {((qty[p.id] ?? 0) * p.points).toLocaleString()} 积分

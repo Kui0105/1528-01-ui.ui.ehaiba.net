@@ -151,15 +151,19 @@ export type StoreItem = {
   owner: string
   phone: string
   activated: number
+  salesman: string
 }
 
 export const stores: StoreItem[] = [
-  { id: "s1", name: "湘江东路店", status: "启用", address: "长沙市天心区湘江东路 88 号", owner: "王建国", phone: "138****6688", activated: 88 },
-  { id: "s2", name: "五一广场店", status: "启用", address: "长沙市芙蓉区五一大道 168 号", owner: "李慧敏", phone: "139****7766", activated: 168 },
-  { id: "s3", name: "岳麓山北店", status: "启用", address: "长沙市岳麓区麓山南路 66 号", owner: "陈志强", phone: "137****5522", activated: 66 },
-  { id: "s4", name: "开福万达店", status: "启用", address: "长沙市开福区万达广场 1 楼", owner: "赵敏", phone: "136****3399", activated: 420 },
-  { id: "s5", name: "雨花德思勤店", status: "停用", address: "长沙市雨花区德思勤广场 B 座", owner: "刘洋", phone: "135****1122", activated: 178 },
+  { id: "s1", name: "湘江东路店", status: "启用", address: "长沙市天心区湘江东路 88 号", owner: "王建国", phone: "138****6688", activated: 88, salesman: "刘伟" },
+  { id: "s2", name: "五一广场店", status: "启用", address: "长沙市芙蓉区五一大道 168 号", owner: "李慧敏", phone: "139****7766", activated: 168, salesman: "陈静" },
+  { id: "s3", name: "岳麓山北店", status: "启用", address: "长沙市岳麓区麓山南路 66 号", owner: "陈志强", phone: "137****5522", activated: 66, salesman: "张三" },
+  { id: "s4", name: "开福万达店", status: "启用", address: "长沙市开福区万达广场 1 楼", owner: "赵敏", phone: "136****3399", activated: 420, salesman: "李四" },
+  { id: "s5", name: "雨花德思勤店", status: "停用", address: "长沙市雨花区德思勤广场 B 座", owner: "刘洋", phone: "135****1122", activated: 178, salesman: "王五" },
 ]
+
+// 业务员候选（门店编辑-业务员选择）
+export const salesmanOptions = ["刘伟", "陈静", "张三", "李四", "王五", "赵敏"] as const
 
 export const storeStock = [
   { name: "迈极炫冰爽槟榔 20元装", stock: 320, unit: "条" },
@@ -244,15 +248,15 @@ export type Salesman = {
   stores: number
   joinDate: string
   active: number
-  sales: number
+  recycle: number
   prize: number
 }
 
 export const salesmen: Salesman[] = [
-  { id: "b1", name: "张三", status: "在职", phone: "138****6688", stores: 12, joinDate: "2024-03-15", active: 37, sales: 26, prize: 17 },
-  { id: "b2", name: "李四", status: "在职", phone: "139****7766", stores: 8, joinDate: "2024-05-22", active: 54, sales: 38, prize: 24 },
-  { id: "b3", name: "王五", status: "在职", phone: "137****5522", stores: 5, joinDate: "2023-11-08", active: 71, sales: 50, prize: 32 },
-  { id: "b4", name: "赵六", status: "在职", phone: "136****3399", stores: 7, joinDate: "2024-06-30", active: 88, sales: 62, prize: 40 },
+  { id: "b1", name: "张三", status: "在职", phone: "138****6688", stores: 12, joinDate: "2024-03-15", active: 37, recycle: 26, prize: 17 },
+  { id: "b2", name: "李四", status: "在职", phone: "139****7766", stores: 8, joinDate: "2024-05-22", active: 54, recycle: 38, prize: 24 },
+  { id: "b3", name: "王五", status: "离职", phone: "137****5522", stores: 5, joinDate: "2023-11-08", active: 71, recycle: 50, prize: 32 },
+  { id: "b4", name: "赵六", status: "在职", phone: "136****3399", stores: 7, joinDate: "2024-06-30", active: 88, recycle: 62, prize: 40 },
 ]
 
 // —— 兑奖明细（原型 prize-detail.html）——
@@ -262,18 +266,19 @@ export type PrizeRecord = {
   id: string
   no: string
   status: "待核销" | "已核销"
-  store: string
+  batch: string
   codeId: string
   prize: string
-  checker: string
+  salesman: string
+  store: string
   time: string
 }
 
 export const prizeRecords: PrizeRecord[] = [
-  { id: "pz1", no: "PC202608000", status: "待核销", store: "湘江东路店", codeId: "JD4B2907E5C3A", prize: "加5元兑换50元迈极炫槟榔一包", checker: "-", time: "2026-08-25 09:23" },
-  { id: "pz2", no: "PC202608001", status: "已核销", store: "五一广场店", codeId: "J2907E5C3A18F", prize: "加5元兑换50元迈极炫槟榔一包", checker: "王建国", time: "2026-08-22 10:10" },
-  { id: "pz3", no: "PC202608002", status: "待核销", store: "岳麓山北店", codeId: "J7E5C3A18F6D4", prize: "加5元兑换50元迈极炫槟榔一包", checker: "-", time: "2026-08-27 11:47" },
-  { id: "pz4", no: "PC202608003", status: "已核销", store: "开福万达店", codeId: "J5C3A18F6D4B2", prize: "加5元兑换50元迈极炫槟榔一包", checker: "赵敏", time: "2026-08-20 16:32" },
+  { id: "pz1", no: "PC202608000", status: "待核销", batch: "第1批次", codeId: "JD4B2907E5C3A", prize: "加5元兑换50元迈极炫槟榔一包", salesman: "刘伟", store: "湘江东路店", time: "2026-08-25 09:23" },
+  { id: "pz2", no: "PC202608001", status: "已核销", batch: "第2批次", codeId: "J2907E5C3A18F", prize: "加5元兑换50元迈极炫槟榔一包", salesman: "陈静", store: "五一广场店", time: "2026-08-22 10:10" },
+  { id: "pz3", no: "PC202608002", status: "待核销", batch: "第3批次", codeId: "J7E5C3A18F6D4", prize: "加5元兑换50元迈极炫槟榔一包", salesman: "张三", store: "岳麓山北店", time: "2026-08-27 11:47" },
+  { id: "pz4", no: "PC202608003", status: "已核销", batch: "第4批次", codeId: "J5C3A18F6D4B2", prize: "加5元兑换50元迈极炫槟榔一包", salesman: "赵敏", store: "开福万达店", time: "2026-08-20 16:32" },
 ]
 
 // —— 销售明细（原型 sales-detail.html）——
@@ -283,18 +288,20 @@ export type SaleRecord = {
   id: string
   no: string
   status: "已激活" | "待兑奖" | "待核销" | "已完成"
-  store: string
+  batch: string
   codeId: string
   expire: string
-  prize: string
+  store: string
+  salesman: string
+  product: string
   time: string
 }
 
 export const saleRecords: SaleRecord[] = [
-  { id: "sd1", no: "PC20260827001", status: "已激活", store: "湘江东路店", codeId: "JM000001", expire: "2027-08-27", prize: "积分", time: "2026-08-27 08:00" },
-  { id: "sd2", no: "PC20260827002", status: "待兑奖", store: "五一广场店", codeId: "JM000002", expire: "2027-08-27", prize: "加5元兑换50元槟榔", time: "2026-08-27 09:07" },
-  { id: "sd3", no: "PC20260827003", status: "待核销", store: "岳麓山北店", codeId: "JM000003", expire: "2027-08-27", prize: "加5元兑换100元槟榔", time: "2026-08-27 10:14" },
-  { id: "sd4", no: "PC20260827004", status: "已完成", store: "开福万达店", codeId: "JM000004", expire: "2027-08-26", prize: "积分", time: "2026-08-26 15:20" },
+  { id: "sd1", no: "PC20260827001", status: "已激活", batch: "第1批次", codeId: "JM000001", expire: "2027-08-27", store: "湘江东路店", salesman: "刘伟", product: "迈极炫槟榔 20元装", time: "2026-08-27 08:00" },
+  { id: "sd2", no: "PC20260827002", status: "待兑奖", batch: "第2批次", codeId: "JM000002", expire: "2027-08-27", store: "五一广场店", salesman: "陈静", product: "迈极炫槟榔 50元装", time: "2026-08-27 09:07" },
+  { id: "sd3", no: "PC20260827003", status: "待核销", batch: "第3批次", codeId: "JM000003", expire: "2027-08-27", store: "岳麓山北店", salesman: "张三", product: "迈极炫槟榔 100元装", time: "2026-08-27 10:14" },
+  { id: "sd4", no: "PC20260827004", status: "已完成", batch: "第4批次", codeId: "JM000004", expire: "2027-08-26", store: "开福万达店", salesman: "李四", product: "迈极炫槟榔 20元装", time: "2026-08-26 15:20" },
 ]
 
 // —— 进货商城 / 进货订单（原型 purchase-mall.html / purchase-orders.html）——
@@ -328,13 +335,14 @@ export type PurchaseOrder = {
   price: number
   qty: number
   total: number
+  rejectReason?: string
 }
 
 export const purchaseOrders: PurchaseOrder[] = [
   { id: "po1", no: "JH202608260012", status: "待入库", name: "迈极炫冰爽槟榔 50元装", image: "/products/box-50.png", spec: "15包/条", price: 42, qty: 300, total: 12600 },
   { id: "po2", no: "JH202608240008", status: "已入库", name: "迈极炫至尊槟榔 100元装", image: "/products/box-100.png", spec: "10包/条", price: 86, qty: 120, total: 10320 },
   { id: "po3", no: "JH202608220005", status: "已入库", name: "迈极炫冰爽槟榔 20元装", image: "/products/box-20.png", spec: "15包/条", price: 16, qty: 500, total: 8000 },
-  { id: "po4", no: "JH202608180003", status: "已驳回", name: "迈极炫经典槟榔礼盒", image: "/products/gift-box.png", spec: "1盒/箱", price: 96, qty: 60, total: 5760 },
+  { id: "po4", no: "JH202608180003", status: "已驳回", name: "迈极炫经典槟榔礼盒", image: "/products/gift-box.png", spec: "1盒/箱", price: 96, qty: 60, total: 5760, rejectReason: "进货数量超过当月配额，请调整数量后重新提交。" },
 ]
 
 // —— 物料商城 / 物料订单（原型 dealer-material-mall.html / dealer-material-orders.html）——
@@ -346,17 +354,18 @@ export type MaterialProduct = {
   category: string
   points: number
   stock: number
+  unit: string
   image: string
 }
 
 export const materialProducts: MaterialProduct[] = [
-  { id: "mt1", name: "门店台面展示架", category: "陈列物料", points: 1200, stock: 36, image: "/material/stand.png" },
-  { id: "mt2", name: "品牌宣传海报", category: "宣传物料", points: 860, stock: 120, image: "/material/poster.png" },
-  { id: "mt3", name: "产品宣传单页", category: "宣传物料", points: 120, stock: 800, image: "/material/flyer.png" },
-  { id: "mt4", name: "促销广播喇叭", category: "促销礼品", points: 420, stock: 64, image: "/material/horn.png" },
-  { id: "mt5", name: "品牌定制遮阳伞", category: "促销礼品", points: 1500, stock: 50, image: "/material/umbrella.png" },
-  { id: "mt6", name: "定制纸杯套装", category: "促销礼品", points: 980, stock: 88, image: "/material/cup.png" },
-  { id: "mt7", name: "品牌钥匙扣挂件", category: "促销礼品", points: 260, stock: 200, image: "/material/keychain.png" },
+  { id: "mt1", name: "门店台面展示架", category: "陈列物料", points: 1200, stock: 36, unit: "个", image: "/material/stand.png" },
+  { id: "mt2", name: "品牌宣传海报", category: "宣传物料", points: 860, stock: 120, unit: "张", image: "/material/poster.png" },
+  { id: "mt3", name: "产品宣传单页", category: "宣传物料", points: 120, stock: 800, unit: "份", image: "/material/flyer.png" },
+  { id: "mt4", name: "促销广播喇叭", category: "促销礼品", points: 420, stock: 64, unit: "个", image: "/material/horn.png" },
+  { id: "mt5", name: "品牌定制遮阳伞", category: "促销礼品", points: 1500, stock: 50, unit: "把", image: "/material/umbrella.png" },
+  { id: "mt6", name: "定制纸杯套装", category: "促销礼品", points: 980, stock: 88, unit: "套", image: "/material/cup.png" },
+  { id: "mt7", name: "品牌钥匙扣挂件", category: "促销礼品", points: 260, stock: 200, unit: "个", image: "/material/keychain.png" },
 ]
 
 export const materialOrderTabs = ["全部", "待付款", "待发货", "待收货", "已完成", "已关闭"] as const
@@ -371,15 +380,16 @@ export type MaterialOrder = {
   qty: number
   total: number
   freight: string
-  canAction: boolean
-  actionLabel: string
+  orderTime: string
 }
 
 export const materialOrders: MaterialOrder[] = [
-  { id: "mo1", no: "WL20260903001", status: "待付款", name: "门店台面展示架", image: "/material/stand.png", points: 1200, qty: 2, total: 2400, freight: "¥6.00", canAction: true, actionLabel: "去付款" },
-  { id: "mo2", no: "WL20260901005", status: "待发货", name: "品牌钥匙扣挂件", image: "/material/keychain.png", points: 260, qty: 10, total: 2600, freight: "¥6.00", canAction: false, actionLabel: "查看详情" },
-  { id: "mo3", no: "WL20260829003", status: "待收货", name: "定制纸杯套装", image: "/material/cup.png", points: 80, qty: 5, total: 400, freight: "¥6.00", canAction: true, actionLabel: "确认收货" },
-  { id: "mo4", no: "WL20260825007", status: "已完成", name: "品牌宣传海报", image: "/material/poster.png", points: 860, qty: 2, total: 1720, freight: "¥6.00", canAction: false, actionLabel: "查看详情" },
+  { id: "mo1", no: "WL20260903001", status: "待付款", name: "门店台面展示架", image: "/material/stand.png", points: 1200, qty: 2, total: 2400, freight: "¥6.00", orderTime: "2026-09-03" },
+  { id: "mo2", no: "WL20260901005", status: "待发货", name: "品牌钥匙扣挂件", image: "/material/keychain.png", points: 260, qty: 10, total: 2600, freight: "¥6.00", orderTime: "2026-09-01" },
+  { id: "mo3", no: "WL20260829003", status: "待收货", name: "定制纸杯套装", image: "/material/cup.png", points: 80, qty: 5, total: 400, freight: "¥6.00", orderTime: "2026-08-29" },
+  { id: "mo4", no: "WL20260825007", status: "待收货", name: "门店灯箱海报", image: "/material/poster.png", points: 860, qty: 2, total: 1720, freight: "¥6.00", orderTime: "2026-08-25" },
+  { id: "mo5", no: "WL20260821005", status: "已完成", name: "定制保温杯", image: "/material/cup.png", points: 980, qty: 2, total: 1960, freight: "¥6.00", orderTime: "2026-08-21" },
+  { id: "mo6", no: "WL20260818002", status: "已关闭", name: "促销礼品袋", image: "/material/bag.png", points: 80, qty: 5, total: 400, freight: "¥6.00", orderTime: "2026-08-18" },
 ]
 
 // —— 经销商积分明细（原型 dealer-points-detail.html）——

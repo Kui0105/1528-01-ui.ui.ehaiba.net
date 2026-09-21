@@ -65,7 +65,7 @@ export function PrizeDetailScreen() {
             {list.map((r) => (
               <div key={r.id} className="rounded-2xl bg-white p-4 card-soft">
                 <div className="flex items-center justify-between border-b border-black/[0.06] pb-2.5">
-                  <span className="text-[14px] font-bold text-ink">兑奖单 {r.no}</span>
+                  <span className="text-[14px] font-bold text-ink">批次号：{r.no}</span>
                   <span
                     className={`rounded px-1.5 py-0.5 text-[11px] font-medium ${
                       r.status === "已核销" ? "bg-[#3fae6f]/15 text-[#3fae6f]" : "bg-brand/10 text-brand"
@@ -75,10 +75,11 @@ export function PrizeDetailScreen() {
                   </span>
                 </div>
                 <div className="mt-2.5 flex flex-col gap-1.5 text-[13px]">
-                  <Row label="门店" value={r.store} />
-                  <Row label="码ID" value={r.codeId} mono />
-                  <Row label="奖项内容" value={r.prize} />
-                  <Row label="核销门店" value={r.checker} />
+                  <Row label="总批次" value={r.batch} />
+                  <Row label="奖码ID" value={r.codeId} mono />
+                  <Row label="中奖奖项" value={r.prize} />
+                  <Row label="兑奖业务员" value={r.salesman} />
+                  <Row label="销售门店" value={r.store} />
                   <Row label="兑奖时间" value={r.time} mono />
                 </div>
               </div>

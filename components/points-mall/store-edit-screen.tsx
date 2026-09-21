@@ -2,17 +2,18 @@
 
 import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { ImagePlus, MapPin } from "lucide-react"
+import { ImagePlus, MapPin, ChevronDown } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
-import { stores } from "@/lib/dealer-data"
+import { stores, salesmanOptions } from "@/lib/dealer-data"
 import { cn } from "@/lib/utils"
 
 export function StoreEditScreen() {
   const router = useRouter()
   const params = useSearchParams()
   const id = params.get("id")
+  const isDealer = params.get("role") === "dealer"
   const store = id ? stores.find((s) => s.id === id) : undefined
   const isEdit = Boolean(store)
 
@@ -21,6 +22,8 @@ export function StoreEditScreen() {
   const [phone, setPhone] = useState(store?.phone ?? "")
   const [address, setAddress] = useState(store?.address ?? "")
   const [status, setStatus] = useState<"启用" | "停用">(store?.status ?? "启用")
+  const [salesman, setSalesman] = useState(store?.salesman ?? "")
+  const [salesmanPicker, setSalesmanPicker] = useState(false)
   const [toast, setToast] = useState("")
   const [confirmOpen, setConfirmOpen] = useState(false)
 
@@ -85,6 +88,20 @@ export function StoreEditScreen() {
               </div>
             </label>
 
+            {isDealer && (
+              <label className="flex flex-col gap-1.5">
+                <span className="text-[13px] text-muted-foreground">所属业务员</span>
+                <button
+                  type="button"
+                  onClick={() => setSalesmanPicker(true)}
+                  className="flex items-center justify-between rounded-xl bg-muted px-3.5 py-2.5 text-[14px]"
+                >
+                  <span className={salesman ? "text-ink" : "text-muted-foreground/60"}>{salesman || "请选择业务员"}</span>
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </button>
+              </label>
+            )}
+
             <Field label="负责人" value={owner} onChange={setOwner} placeholder="请输入负责人" />
             <Field label="联系电话" value={phone} onChange={setPhone} placeholder="请输入联系电话" />
 
@@ -119,6 +136,34 @@ export function StoreEditScreen() {
             保存
           </button>
         </div>
+
+        {salesmanPicker && (
+          <div className="absolute inset-0 z-40 flex flex-col justify-end bg-black/40" onClick={() => setSalesmanPicker(false)}>
+            <div className="rounded-t-2xl bg-white pb-4" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-3">
+                <span className="text-[15px] font-semibold text-ink">选择业务员</span>
+                <button type="button" onClick={() => setSalesmanPicker(false)} className="text-[13px] text-muted-foreground">
+                  取消
+                </button>
+              </div>
+              {salesmanOptions.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => {
+                    setSalesman(s)
+                    setSalesmanPicker(false)
+                  }}
+                  className={`flex w-full items-center px-4 py-3 text-left text-[14px] active:bg-black/[0.03] ${
+                    salesman === s ? "font-semibold text-brand" : "text-ink"
+                  }`}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {confirmOpen && (
           <div className="absolute inset-0 z-30 flex items-end justify-center">

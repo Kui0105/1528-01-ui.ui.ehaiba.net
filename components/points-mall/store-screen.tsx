@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Search, Plus, Boxes, FileText, Pencil, Trash2, Store as StoreIcon } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { Search, Plus, Boxes, FileText, Pencil, Trash2, Store as StoreIcon, UserRound } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
@@ -10,6 +10,9 @@ import { stores } from "@/lib/dealer-data"
 
 export function StoreScreen() {
   const router = useRouter()
+  const params = useSearchParams()
+  const isDealer = params.get("role") === "dealer"
+  const roleQuery = isDealer ? "&role=dealer" : ""
   const [keyword, setKeyword] = useState("")
   const [toast, setToast] = useState("")
   const [confirmDel, setConfirmDel] = useState<string | null>(null)
@@ -69,12 +72,18 @@ export function StoreScreen() {
                     <span className="mt-0.5 text-[12px] text-muted-foreground">
                       {s.owner} · {s.phone}
                     </span>
+                    {isDealer && (
+                      <span className="mt-1 flex items-center gap-1 text-[12px] text-muted-foreground">
+                        <UserRound className="h-3.5 w-3.5 text-brand" strokeWidth={2} />
+                        业务员：<span className="text-ink">{s.salesman}</span>
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="mt-3 grid grid-cols-4 gap-2 border-t border-black/[0.06] pt-3">
                   <Action icon={Boxes} label="库存" onClick={() => router.push(`/store-stock?id=${s.id}`)} />
                   <Action icon={FileText} label="变动记录" onClick={() => router.push(`/store-logs?id=${s.id}`)} />
-                  <Action icon={Pencil} label="编辑" onClick={() => router.push(`/store-edit?id=${s.id}`)} />
+                  <Action icon={Pencil} label="编辑" onClick={() => router.push(`/store-edit?id=${s.id}${roleQuery}`)} />
                   <Action icon={Trash2} label="删除" danger onClick={() => setConfirmDel(s.name)} />
                 </div>
               </div>
@@ -85,7 +94,7 @@ export function StoreScreen() {
         {/* 新增按钮 */}
         <button
           type="button"
-          onClick={() => router.push("/store-edit")}
+          onClick={() => router.push(`/store-edit?${isDealer ? "role=dealer" : ""}`)}
           className="brand-gradient glow-brand absolute bottom-5 right-5 z-20 flex h-14 w-14 items-center justify-center rounded-full text-white active:scale-90"
           aria-label="新增门店"
         >

@@ -37,9 +37,19 @@ export function PurchaseOrderDetailScreen({ kind }: { kind: "purchase" | "materi
           <section className="brand-gradient rounded-2xl px-4 py-4 text-white">
             <span className="text-[16px] font-bold">{order.status}</span>
             <p className="mt-1 text-[12px] text-white/85">
-              {isMaterial ? "请留意物流信息，及时确认收货" : "进货单已提交，等待处理"}
+              {isMaterial ? "请留意物流信息，及时确认收货" : statusHint(order.status)}
             </p>
           </section>
+
+          {/* 驳回原因（已驳回进货单） */}
+          {!isMaterial && order.status === "已驳回" && (
+            <section className="mt-3 rounded-2xl border border-[#e5484d]/25 bg-[#e5484d]/[0.06] p-4">
+              <span className="text-[14px] font-bold text-[#e5484d]">驳回原因</span>
+              <p className="mt-1.5 text-[13px] leading-relaxed text-ink/80">
+                {(order as (typeof purchaseOrders)[number]).rejectReason ?? "未填写驳回原因"}
+              </p>
+            </section>
+          )}
 
           {/* 收货信息（物料订单） */}
           {isMaterial && (
@@ -83,29 +93,41 @@ export function PurchaseOrderDetailScreen({ kind }: { kind: "purchase" | "materi
             </dl>
           </section>
 
-          {/* 进度 */}
-          <section className="mt-3 rounded-2xl bg-white p-4 card-soft">
-            <span className="text-[14px] font-bold text-ink">订单进度</span>
-            <ol className="mt-4 flex flex-col gap-4">
-              {steps.map((s, i) => {
-                const done = i <= activeStep
-                return (
-                  <li key={s} className="flex items-center gap-3">
-                    {done ? (
-                      <CheckCircle2 className="h-5 w-5 text-brand" />
-                    ) : (
-                      <Circle className="h-5 w-5 text-muted-foreground/40" />
-                    )}
-                    <span className={`text-[13px] ${done ? "font-medium text-ink" : "text-muted-foreground"}`}>{s}</span>
-                  </li>
-                )
-              })}
-            </ol>
-          </section>
+          {/* 进度（仅物料订单） */}
+          {isMaterial && (
+            <section className="mt-3 rounded-2xl bg-white p-4 card-soft">
+              <span className="text-[14px] font-bold text-ink">订单进度</span>
+              <ol className="mt-4 flex flex-col gap-4">
+                {steps.map((s, i) => {
+                  const done = i <= activeStep
+                  return (
+                    <li key={s} className="flex items-center gap-3">
+                      {done ? (
+                        <CheckCircle2 className="h-5 w-5 text-brand" />
+                      ) : (
+                        <Circle className="h-5 w-5 text-muted-foreground/40" />
+                      )}
+                      <span className={`text-[13px] ${done ? "font-medium text-ink" : "text-muted-foreground"}`}>{s}</span>
+                    </li>
+                  )
+                })}
+              </ol>
+            </section>
+          )}
         </main>
       </div>
     </PhoneFrame>
   )
+}
+
+function statusHint(status: string) {
+  const map: Record<string, string> = {
+    待入库: "进货单已提交，等待经销商处理",
+    已入库: "进货产品已入库",
+    已驳回: "进货单已被驳回，请查看驳回原因",
+    已取消: "进货单已取消",
+  }
+  return map[status] ?? "进货单已提交，等待处理"
 }
 
 function statusToStep(status: string, isMaterial: boolean) {

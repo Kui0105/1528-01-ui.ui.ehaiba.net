@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Search, Minus, Plus, Package, X, CheckCircle2 } from "lucide-react"
+import { Search, Minus, Plus, Package } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
@@ -14,12 +14,26 @@ export function PurchaseMallScreen() {
   const [keyword, setKeyword] = useState("")
   const [qty, setQty] = useState<Record<string, number>>({})
   const [toast, setToast] = useState("")
-  const [confirmOpen, setConfirmOpen] = useState(false)
-  const [success, setSuccess] = useState(false)
 
   function showToast(msg: string) {
     setToast(msg)
     window.setTimeout(() => setToast(""), 1600)
+  }
+
+  function submitOrder() {
+    if (!totalCount) {
+      showToast("请选择进货产品")
+      return
+    }
+    const cart = purchaseProducts
+      .filter((p) => (qty[p.id] ?? 0) > 0)
+      .map((p) => ({ id: p.id, qty: qty[p.id] }))
+    try {
+      window.sessionStorage.setItem("purchaseCart", JSON.stringify(cart))
+    } catch {
+      // ignore storage errors in preview
+    }
+    router.push("/purchase-order-create")
   }
 
   const list = useMemo(() => {
@@ -129,86 +143,12 @@ export function PurchaseMallScreen() {
           </div>
           <button
             type="button"
-            onClick={() => (totalCount ? setConfirmOpen(true) : showToast("请选择进货产品"))}
+            onClick={submitOrder}
             className="brand-gradient glow-brand rounded-full px-8 py-2.5 text-[15px] font-bold text-white active:scale-95"
           >
             提交进货订单
           </button>
         </div>
-
-        {/* 进货确认弹层 */}
-        {confirmOpen && (
-          <div className="absolute inset-0 z-40 flex flex-col justify-end bg-black/40" onClick={() => setConfirmOpen(false)}>
-            <div className="rounded-t-2xl bg-white pb-4" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-3">
-                <span className="text-[15px] font-semibold text-ink">确认进货清单</span>
-                <button type="button" onClick={() => setConfirmOpen(false)} aria-label="关闭">
-                  <X className="h-5 w-5 text-muted-foreground" />
-                </button>
-              </div>
-              <div className="max-h-64 overflow-y-auto px-4">
-                {purchaseProducts
-                  .filter((p) => qty[p.id])
-                  .map((p) => (
-                    <div key={p.id} className="flex items-center justify-between border-b border-black/[0.04] py-2.5">
-                      <span className="text-[14px] text-ink">{p.name}</span>
-                      <span className="text-[13px] text-muted-foreground">
-                        ¥{p.price} × {qty[p.id]}
-                      </span>
-                    </div>
-                  ))}
-              </div>
-              <div className="flex items-center justify-between px-4 pt-3">
-                <span className="text-[13px] text-muted-foreground">
-                  共 {totalCount} 件
-                </span>
-                <span className="text-[16px] font-black text-brand">合计 ¥{totalPrice.toLocaleString()}</span>
-              </div>
-              <div className="px-4 pt-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setConfirmOpen(false)
-                    setSuccess(true)
-                  }}
-                  className="brand-gradient glow-brand w-full rounded-full py-3 text-[15px] font-bold text-white active:scale-[0.98]"
-                >
-                  确认提交
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* 提交成功 */}
-        {success && (
-          <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/40 px-8">
-            <div className="w-full rounded-2xl bg-white px-6 py-7 text-center">
-              <CheckCircle2 className="mx-auto h-14 w-14 text-[#3fae6f]" />
-              <p className="mt-3 text-[16px] font-bold text-ink">进货订单已提交</p>
-              <p className="mt-1 text-[13px] text-muted-foreground">可在进货订单中查看订单状态</p>
-              <div className="mt-5 flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSuccess(false)
-                    setQty({})
-                  }}
-                  className="flex-1 rounded-full border border-black/10 py-2.5 text-[14px] text-ink active:scale-95"
-                >
-                  继续进货
-                </button>
-                <button
-                  type="button"
-                  onClick={() => router.push("/purchase-orders")}
-                  className="brand-gradient flex-1 rounded-full py-2.5 text-[14px] font-semibold text-white active:scale-95"
-                >
-                  查看订单
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       <Toast message={toast} />

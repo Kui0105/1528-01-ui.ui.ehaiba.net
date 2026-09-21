@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Search, Gift, ChevronRight } from "lucide-react"
+import { Search, Gift } from "lucide-react"
 import { PhoneFrame } from "./phone-frame"
 import { MobileNavBar } from "@/components/shared/mobile-nav-bar"
 import { Toast } from "@/components/lottery/toast"
@@ -15,6 +15,26 @@ const statusColor: Record<string, string> = {
   待收货: "bg-brand/10 text-brand",
   已完成: "bg-[#3fae6f]/15 text-[#3fae6f]",
   已关闭: "bg-black/10 text-muted-foreground",
+}
+
+type OrderAction = { label: string; kind: "detail" | "pay" | "cancel" | "receive"; primary?: boolean }
+
+function orderActions(status: string): OrderAction[] {
+  switch (status) {
+    case "待付款":
+      return [
+        { label: "取消订单", kind: "cancel" },
+        { label: "立即支付", kind: "pay", primary: true },
+      ]
+    case "待收货":
+      return [
+        { label: "查看详情", kind: "detail" },
+        { label: "确认收货", kind: "receive", primary: true },
+      ]
+    default:
+      // 待发货 / 已完成 / 已关闭
+      return [{ label: "查看详情", kind: "detail" }]
+  }
 }
 
 export function MaterialOrdersScreen() {
@@ -97,35 +117,39 @@ export function MaterialOrdersScreen() {
                   </div>
                 </div>
                 <div className="mt-3 flex items-center justify-between border-t border-black/[0.06] pt-3">
-                  <span className="text-[12px] text-muted-foreground">
-                    共 {o.qty} 件 · 运费 {o.freight}
-                  </span>
                   <span className="text-[15px] font-black text-brand">{o.total.toLocaleString()} 积分</span>
+                  <span className="text-[12px] text-muted-foreground">共 {o.qty} 件</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between gap-3">
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/material-order-detail?id=${o.id}`)}
-                    className="flex items-center text-[13px] text-muted-foreground active:opacity-70"
-                  >
-                    查看详情
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      o.actionLabel === "查看物流"
-                        ? router.push("/logistics")
-                        : showToast(`${o.actionLabel}成功`)
-                    }
-                    className={
-                      o.canAction
-                        ? "brand-gradient rounded-full px-5 py-1.5 text-[13px] font-semibold text-white active:scale-95"
-                        : "rounded-full border border-black/10 px-5 py-1.5 text-[13px] text-ink active:scale-95"
-                    }
-                  >
-                    {o.actionLabel}
-                  </button>
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="text-[12px] text-muted-foreground">
+                    下单时间 {o.orderTime} · 运费 {o.freight}
+                  </span>
+                </div>
+                <div className="mt-3 flex items-center justify-end gap-2.5">
+                  {orderActions(o.status).map((a) => (
+                    <button
+                      key={a.label}
+                      type="button"
+                      onClick={() => {
+                        if (a.kind === "detail") {
+                          router.push(`/material-order-detail?id=${o.id}`)
+                        } else if (a.kind === "pay") {
+                          showToast("支付成功")
+                        } else if (a.kind === "cancel") {
+                          showToast("订单已取消")
+                        } else if (a.kind === "receive") {
+                          showToast("已确认收货")
+                        }
+                      }}
+                      className={
+                        a.primary
+                          ? "brand-gradient rounded-full px-5 py-1.5 text-[13px] font-semibold text-white active:scale-95"
+                          : "rounded-full border border-black/10 px-5 py-1.5 text-[13px] text-ink active:scale-95"
+                      }
+                    >
+                      {a.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             ))}

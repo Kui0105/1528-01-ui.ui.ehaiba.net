@@ -14,6 +14,7 @@ export function BusinessManageScreen() {
   const [keyword, setKeyword] = useState("")
   const [confirm, setConfirm] = useState<string | null>(null)
   const [form, setForm] = useState<FormSheet>(null)
+  const [formStatus, setFormStatus] = useState<"在职" | "离职">("在职")
   const [toast, setToast] = useState("")
 
   function showToast(msg: string) {
@@ -85,7 +86,10 @@ export function BusinessManageScreen() {
                   <div className="flex flex-col gap-2">
                     <button
                       type="button"
-                      onClick={() => setForm({ kind: "edit", name: s.name, phone: s.phone })}
+                      onClick={() => {
+                        setFormStatus(s.status as "在职" | "离职")
+                        setForm({ kind: "edit", name: s.name, phone: s.phone })
+                      }}
                       className="rounded-full border border-black/10 px-3 py-1 text-[12px] text-ink active:scale-95"
                     >
                       编辑
@@ -101,7 +105,7 @@ export function BusinessManageScreen() {
                 </div>
                 <div className="mt-3 flex items-center border-t border-black/[0.06] pt-3">
                   <Metric label="激活数" value={s.active} />
-                  <Metric label="动销数" value={s.sales} border />
+                  <Metric label="回收数" value={s.recycle} border />
                   <Metric label="兑奖数" value={s.prize} border />
                 </div>
               </div>
@@ -112,7 +116,10 @@ export function BusinessManageScreen() {
         {/* 新增按钮 */}
         <button
           type="button"
-          onClick={() => setForm({ kind: "add" })}
+          onClick={() => {
+            setFormStatus("在职")
+            setForm({ kind: "add" })
+          }}
           className="brand-gradient glow-brand absolute bottom-5 right-5 z-20 flex h-14 w-14 items-center justify-center rounded-full text-white active:scale-90"
           aria-label="新增业务员"
         >
@@ -134,7 +141,23 @@ export function BusinessManageScreen() {
               <div className="flex flex-col gap-3 p-4">
                 <FormField label="姓名" defaultValue={form.kind === "edit" ? form.name : ""} placeholder="请输入姓名" />
                 <FormField label="手机号" defaultValue={form.kind === "edit" ? form.phone : ""} placeholder="请输入手机号" />
-                <FormField label="管理门店数" placeholder="请输入门店数量" />
+                <label className="flex flex-col gap-1.5">
+                  <span className="text-[13px] text-muted-foreground">状态</span>
+                  <div className="flex gap-2.5">
+                    {(["在职", "离职"] as const).map((st) => (
+                      <button
+                        key={st}
+                        type="button"
+                        onClick={() => setFormStatus(st)}
+                        className={`flex-1 rounded-full border py-2.5 text-[14px] font-medium transition-colors active:scale-95 ${
+                          formStatus === st ? "border-brand bg-brand/5 text-brand" : "border-black/10 text-muted-foreground"
+                        }`}
+                      >
+                        {st}
+                      </button>
+                    ))}
+                  </div>
+                </label>
               </div>
               <div className="border-t border-black/[0.06] p-4">
                 <button

@@ -71,15 +71,17 @@ export function SalesDetailScreen() {
             {list.map((r) => (
               <div key={r.id} className="rounded-2xl bg-white p-4 card-soft">
                 <div className="flex items-center justify-between border-b border-black/[0.06] pb-2.5">
-                  <span className="text-[14px] font-bold text-ink">销售单 {r.no}</span>
+                  <span className="text-[14px] font-bold text-ink">批次号：{r.no}</span>
                   <span className={`rounded px-1.5 py-0.5 text-[11px] font-medium ${statusColor[r.status]}`}>{r.status}</span>
                 </div>
                 <div className="mt-2.5 flex flex-col gap-1.5 text-[13px]">
-                  <Row label="门店" value={r.store} />
-                  <Row label="码ID" value={r.codeId} mono />
+                  <Row label="总批次" value={r.batch} />
+                  <Row label="奖码ID" value={r.codeId} mono />
                   <Row label="有效期" value={r.expire} mono />
-                  <Row label="抽奖结果" value={r.prize} />
-                  <Row label="销售时间" value={r.time} mono />
+                  <Row label="销售门店" value={r.store} />
+                  <Row label="业务员" value={r.salesman} />
+                  <Row label="商品名称" value={r.product} />
+                  <Row label="激活时间" value={r.time} mono />
                 </div>
               </div>
             ))}

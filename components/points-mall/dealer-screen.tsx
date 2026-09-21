@@ -13,7 +13,7 @@ const entryMeta: Record<string, { icon: typeof Store; color: string; href: strin
   进货商城: { icon: ShoppingCart, color: "#c9302c", href: "/purchase-mall" },
   进货订单: { icon: FileText, color: "#e8833a", href: "/purchase-orders" },
   产品库存: { icon: Boxes, color: "#4f7fd6", href: "/product-stock" },
-  门店管理: { icon: StoreIcon, color: "#2fa39a", href: "/store" },
+  门店管理: { icon: StoreIcon, color: "#2fa39a", href: "/store?role=dealer" },
   业务管理: { icon: Users, color: "#8a5cd6", href: "/business-manage" },
   销售明细: { icon: LineChart, color: "#3fae6f", href: "/sales-detail" },
   兑奖明细: { icon: Gift, color: "#d4a843", href: "/prize-detail" },
