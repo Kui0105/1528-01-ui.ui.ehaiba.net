@@ -6,6 +6,25 @@ export const metadata: Metadata = {
   title: '迈极炫 · 积分商城',
   description: '迈极炫会员积分商城 — 积分兑好礼，运动能量随心换',
   generator: 'v0.app',
+  openGraph: {
+    title: '迈极炫 · 积分商城',
+    description: '迈极炫会员积分商城 — 积分兑好礼，运动能量随心换',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 513,
+        height: 513,
+        alt: '迈极炫',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: '迈极炫 · 积分商城',
+    description: '迈极炫会员积分商城 — 积分兑好礼，运动能量随心换',
+    images: ['/og-image.png'],
+  },
   icons: {
     icon: [
       {
